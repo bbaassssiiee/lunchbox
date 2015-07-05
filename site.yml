@@ -6,5 +6,5 @@
   sudo: yes
 
 
-- include: dbservers.yml
 - include: webservers.yml
+- include: dbservers.yml
