@@ -1,0 +1,7 @@
+---
+# Install as roo
+- include: install.yml
+
+# Run configuration as postgres
+- include: config.yml
+

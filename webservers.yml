@@ -1,0 +1,14 @@
+- name: webapp server setup
+  hosts: webservers
+  sudo: yes
+
+  pre_tasks:
+    - include: webservers/pre_tasks.yml
+
+  roles:
+    - common
+    - geerlingguy.java
+    - tomcat
+
+  post_tasks:
+    - include: webservers/post_tasks.yml

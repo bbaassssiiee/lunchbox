@@ -1,0 +1,10 @@
+---
+###
+- name: common stuff for all hosts
+  hosts: all:!local
+  remote_user: vagrant
+  sudo: yes
+
+
+- include: dbservers.yml
+- include: webservers.yml

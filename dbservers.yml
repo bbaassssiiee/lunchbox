@@ -1,0 +1,23 @@
+- name: database server setup
+  hosts: dbservers
+  gather_facts: True
+  sudo: yes
+
+  
+  vars_prompt:
+    - name: "dba_password"
+      prompt: "Enter the new dba password..."
+      default: "password"
+      private: yes
+
+  pre_tasks:
+    - include: dbservers/pre_tasks.yml
+
+  roles:
+    - common
+    - postgres
+
+  tasks: []
+
+  post_tasks:
+    - include: dbservers/post_tasks.yml

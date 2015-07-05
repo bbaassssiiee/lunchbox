@@ -1,0 +1,14 @@
+    - name: 'fix JAVA_HOME'
+      shell: echo export JAVA_HOME=/usr/lib/jvm/jre > /etc/profile.d/jre.sh
+
+    - name: 'fix permissions'
+      file: dest=/etc/profile.d/jre.sh mode=0755
+
+    - name: 'fix "web" in /etc/sysconfig/iptables file'
+      lineinfile: dest=/etc/sysconfig/iptables
+                  line='-A INPUT -p tcp -m tcp --dport 8080 -j ACCEPT'
+                  state=present
+                  insertbefore=^COMMIT
+
+    - name: 'restart iptables'
+      service: name=iptables state=restarted
