@@ -10,7 +10,7 @@
   roles:
     - common
     - geerlingguy.java
-    - tomcat
+    - hostclick.tomcat
 
   post_tasks:
     - include: webservers/post_tasks.yml
