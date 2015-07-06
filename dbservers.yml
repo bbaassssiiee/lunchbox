@@ -1,8 +1,8 @@
+# playbook for dbserver tier
+
 - name: database server setup
   hosts: dbservers
   gather_facts: True
-  sudo: yes
-
   
   vars_prompt:
     - name: "dba_password"

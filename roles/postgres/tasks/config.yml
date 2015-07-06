@@ -2,27 +2,42 @@
 
 - name: 'init postgresql database'
   command: service postgresql-9.4 initdb creates=/var/lib/pgsql/9.3/data/postgresql.conf
+  sudo: yes
   notify:
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
+  tags:
+    - install
 
 - name: 'ensure postgresql is running automatically at boot'
   service: name=postgresql-9.4 enabled=yes
+  sudo: yes
   when: ansible_os_family == "RedHat"
+  tags:
+    - install
 
-# And on top of that, authentication is needs md5
 - name: 'configure pg_hba.conf'
-  template: src=pg_hba.conf dest=/var/lib/pgsql/9.4/data/pg_hba.conf backup=on
+  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.4/data/pg_hba.conf backup=on
+  sudo_user: postgres
   notify:
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
+  tags:
+    - config
 
 - name: 'unset ip to listen on to ipv4 localhost'
+  sudo_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '127.0.0.1'" state=absent
+  tags:
+    - config
 
 - name: 'set listen on on ipv4 addresses'
+  sudo_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '*'" state=present
   notify:
-    - start postgresql-9.4
+    - start postgresql-9.4 
+    # that is define in ../handlers/main.yml
+  tags:
+    - config

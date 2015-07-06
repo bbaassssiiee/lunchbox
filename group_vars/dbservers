@@ -1,2 +1,2 @@
 ---
-
+# here we assign variables to the group [dbservers] defined in inventory.ini

@@ -7,6 +7,3 @@
 
 - src: hostclick.tomcat
   path: ./roles/
-# using below until above accepts patch
-- src: https://github.com/bbaassssiiee/tomcat
-  path: ./roles/

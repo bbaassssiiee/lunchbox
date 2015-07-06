@@ -1,25 +1,32 @@
 ---
+# these are common tasks for linux installs
+
 - name: 'add package for clock synchronization'
   yum: name={{ item }} state=present
   with_items:
    - ntp
 
 - name: 'start synchronizing the system clock'
+  sudo: yes
   service: name=ntpd state=started enabled=yes
 
 - name: 'set hostname'
+  sudo: yes
   hostname: name='{{inventory_hostname}}'
 
 - name: 'persist hostname in hosts file'
+  sudo: yes
   lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
               line='{{ansible_eth1.ipv4.address}}   {{inventory_hostname}}'
               state=present
 
 - name: 'persist localhost in hosts file'
+  sudo: yes
   lineinfile: dest=/etc/hosts regexp='^127.0.0.1'
               line='127.0.0.1   localhost.localdomain localhost'
               state=present
 
 - name: 'add domain name resolver'
+  sudo: yes
   lineinfile: dest=/etc/resolv.conf regexp='^nameserver'
               line='nameserver {{dns_nameserver}}' state=present

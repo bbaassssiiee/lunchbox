@@ -10,7 +10,7 @@
     tags:
       - verify
 
-  - name: 'verify firewall setup'
+  - name: 'verify firewall, browsing tomcat'
     sudo: no
     local_action: uri url=http://web:8080/ status_code=200
     tags:

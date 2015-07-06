@@ -6,11 +6,18 @@
 
   - name: 'create database'
     postgresql_db: name=database template='template0' encoding='UTF-8'
+    tags:
+      - config
 
   - name: 'create dba user'
     postgresql_user: db=database name='dba' password='{{dba_password}}'
+    tags:
+      - config
 
   - name: 'download jdbc connector for postgres'
     delegate_to: web
-    get_url: url={{postgres_jdbc_url}} dest=/opt/tomcat/lib owner=tomcat group=tomcat
+    sudo_user: tomcat
+    get_url: url={{postgres_jdbc_url}} dest=/opt/tomcat/lib
     register: jdbc_installed
+    tags:
+      - download

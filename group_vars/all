@@ -1,3 +1,5 @@
+# here we assign variables to all groups
+
 dns_nameserver: 8.8.4.4
 
 

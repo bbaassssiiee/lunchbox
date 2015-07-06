@@ -1,3 +1,4 @@
 ---
+# here we assign variables to the group [webservers] defined in inventory.ini
 java_packages:
   - java-1.7.0-openjdk
