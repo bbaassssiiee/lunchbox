@@ -4,3 +4,6 @@ all:
 
 install:
 	./run_this_first.sh
+
+provision:
+	vagrant up --no-provision
