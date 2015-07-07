@@ -6,6 +6,6 @@
 ansible-galaxy install --force --role-file requirements.yml
 
 # Install python extensions for Ansible
-pip install --upgrade -r requirements.pip
+pip install --upgrade -r requirements.txt
 
 
