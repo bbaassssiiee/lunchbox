@@ -14,3 +14,7 @@
 
   post_tasks:
     - include: webservers/post_tasks.yml
+
+  handlers:
+    - name: restart iptables
+      service: name=iptables state=restarted
