@@ -1,0 +1,32 @@
+- hosts: 127.0.0.1
+  gather_facts: False
+  sudo: yes
+
+  vars:
+  - benchmark: 'U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark.zip'
+  - stig_baseurl: 'http://iasecontent.disa.mil/stigs/zip/July2015'
+
+  tasks:
+
+  - name: 'add packages for security audit'
+    yum: name=openscap-utils state=present
+
+  - name: 'download from http://iase.disa.mil/'
+    get_url: url={{stig_baseurl}}/{{benchmark}} dest=/vagrant/{{benchmark}}
+
+  - name: 'unzip Security Content Automation Protocol Content'
+    command: unzip -o /vagrant/{{benchmark}}
+
+  - name: 'make this benchmark work for Centos instead of RHEL'
+    shell: "perl -pi -e 's/redhat:enterprise_linux/centos:centos/;' *.xml"
+
+  - name: 'run the SCAP tool and create rhel-stig-report.html'
+    command: "oscap xccdf eval \
+      --profile MAC-1_Sensitive \
+      --results /vagrant/results.xml \
+      --report /vagrant/rhel-stig-report.html \
+      --cpe U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark-cpe-dictionary.xml \
+      U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark-xccdf.xml"
+    no_log: yes
+    ignore_errors: yes
+
