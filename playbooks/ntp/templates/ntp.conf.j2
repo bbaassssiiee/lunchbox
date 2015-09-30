@@ -1,0 +1,12 @@
+# ntp.conf file for all servers
+# {{ ansible_managed }}
+
+tinker panic 0
+restrict 127.0.0.1
+restrict default kod nomodify notrap
+server {{ ansible_default_ipv4.gateway }}
+driftfile /var/lib/ntp/drift
+
+# Avoid using the local clock
+server 127.127.1.0 # local clock
+fudge 127.127.1.0 stratum 10

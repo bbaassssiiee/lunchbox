@@ -1,0 +1,11 @@
+---
+- hosts: all:!local
+  user: vagrant
+  sudo: True
+
+  tasks:
+  - name: remove /etc/localtime
+    action: file path=/etc/localtime state=absent
+
+  - name: link /etc/localtime to /usr/share/zoneinfo/Europe/Amsterdam
+    action: file src=/usr/share/zoneinfo/Europe/Amsterdam dest=/etc/localtime state=link owner=root group=root

@@ -1,0 +1,20 @@
+---
+- hosts: all:!local
+  user: vagrant
+  sudo: True
+
+  tasks:
+  - name: make sure package vixie-cron is installed
+    yum: name=vixie-cron state=present
+
+  - name: copy /etc/cron.deny file
+    template: src=templates/cron.deny.j2 dest=/etc/cron.deny
+        owner=root group=root mode=0600
+
+  - name: copy /etc/cron.allow file
+    template: src=templates/cron.allow.j2 dest=/etc/cron.allow
+        owner=root group=root mode=0600
+
+  - name: build default crontab for root
+    template: src=templates/cron-root.j2 dest=/var/spool/cron/root
+        owner=root group=root mode=0600

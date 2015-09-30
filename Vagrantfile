@@ -33,8 +33,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     web_config.vm.network "private_network", ip: "192.168.20.20", :netmask => "255.255.255.0",  auto_config: true
     # To access this host use: 'vagrant ssh dev'
     web_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
-    # HTTPS for reverse proxy
-    web_config.vm.network "forwarded_port", guest: 443, host: 8443, auto_correct: true
+    # Port of the Tomcat Appserver
+    web_config.vm.network "forwarded_port", guest: 8080, host: 8080, auto_correct: true
 
     web_config.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024", "--natnet1", "172.16.1/24"]

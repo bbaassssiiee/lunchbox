@@ -1,0 +1,20 @@
+---
+- hosts: all:!local
+  user: vagrant
+  sudo: True
+
+  tasks:
+
+  - name: make sure package ntp is installed
+    yum: name=ntp state=installed
+
+  - name: build and write /etc/ntp.conf file
+    template: src=templates/ntp.conf.j2 dest=/etc/ntp.conf
+        owner=root group=root mode=0644 backup=no
+    notify:
+      - restart ntpd
+
+  handlers:
+
+  - name: restart ntpd
+    service: name=ntpd state=restarted
