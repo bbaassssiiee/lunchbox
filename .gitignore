@@ -6,7 +6,10 @@
 pki
 
 # Re-use Galaxy roles: use ansible/requirements.yml
-ansible/roles
+roles/RHEL6-STIG/
+roles/geerlingguy.java/
+roles/hostclick.tomcat/
+
 
 # Packer builds
 output-virtualbox-iso
