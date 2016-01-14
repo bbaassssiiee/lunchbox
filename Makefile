@@ -1,4 +1,4 @@
-all:
+all: install
 	vagrant up --no-provision
 	ansible-playbook site.yml
 
