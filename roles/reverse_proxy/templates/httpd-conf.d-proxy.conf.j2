@@ -1,0 +1,13 @@
+
+ProxyRequests Off
+
+ProxyPass / http://localhost:8080/
+ProxyPassReverse / http://localhost:8080/
+ProxyPassReverse  / http://{{inventory_hostname}}:8080/
+
+RequestHeader set X-Forwarded-Proto "https"
+RequestHeader set X-Forwarded-Port "443"
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}

@@ -9,9 +9,10 @@
 
   roles:
     - common
-    - RHEL6-STIG
     - geerlingguy.java
     - hostclick.tomcat
+    - reverse_proxy
+    - RHEL6-STIG
 
   post_tasks:
     - include: webservers/post_tasks.yml

@@ -1,0 +1,17 @@
+---
+# Usage: ansible-playbook -v -i inventory.ini -l local root_ca.yml
+- name: "install.yml"
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+
+  tasks:
+    - name: 'generate CA key'
+      command: "openssl genrsa -out pki/RootCA.key 1024 creates=pki/RootCA.key"
+
+    - name: 'self-sign CA key'
+      command: "openssl req -x509 -new -nodes -key pki/RootCA.key -days 1024 -out pki/RootCA.pem -subj '/C=NL/ST=NH/L=Amsterdam/O=AnsibleBenelux/CN=Local Root CA' creates=pki/RootCA.pem"
+
+    - name: 'convert pem to der for webserver'
+      command: "openssl x509 -in pki/RootCA.pem -outform der -out pki/RootCA.cer creates=pki/RootCA.cer"

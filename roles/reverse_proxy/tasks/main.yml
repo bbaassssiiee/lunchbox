@@ -1,0 +1,7 @@
+---
+# Configure webserver
+- include: config.yml
+
+# Configure certificates
+- include: certificates.yml
+
