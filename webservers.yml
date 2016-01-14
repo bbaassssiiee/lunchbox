@@ -9,6 +9,7 @@
 
   roles:
     - common
+    - RHEL6-STIG
     - geerlingguy.java
     - hostclick.tomcat
 

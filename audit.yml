@@ -1,4 +1,4 @@
-- hosts: 127.0.0.1
+- hosts: webservers
   gather_facts: False
   sudo: yes
 
@@ -30,3 +30,5 @@
     no_log: yes
     ignore_errors: yes
 
+  - name: 'Now open audit report rhel-stig-report.html'
+    command: echo 'open rhel-stig-report.html'
