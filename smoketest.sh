@@ -1,1 +1,1 @@
-ansible-playbook site.yml --ask-vault-pass --tags=verify --private-key=pki/vagrant.rsa
+ansible-playbook site.yml -i hosts --tags=verify --private-key=pki/vagrant.rsa

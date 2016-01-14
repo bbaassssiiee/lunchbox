@@ -8,4 +8,8 @@ ansible-galaxy install --force --role-file requirements.yml
 # Install python extensions for Ansible
 pip install --upgrade -r requirements.txt
 
+# Bring up the VMs
+vagrant up --no-provision
 
+# Provision the VMs
+ansible-playbook --ask-vault-pass site.yml

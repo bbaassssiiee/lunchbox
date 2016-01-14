@@ -20,6 +20,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.inventory_path = "inventory.ini"
     ansible.playbook = "site.yml"
+    ansible.raw_arguments = "--ask-vault-pass"
     ansible.verbose = "vv"
     ansible.host_key_checking = "false"
   end
