@@ -18,6 +18,7 @@
 
 - name: 'configure pg_hba.conf'
   template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.4/data/pg_hba.conf backup=on
+  sudo: yes
   sudo_user: postgres
   notify:
     - start postgresql-9.4
@@ -26,6 +27,7 @@
     - config
 
 - name: 'unset ip to listen on to ipv4 localhost'
+  sudo: yes
   sudo_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '127.0.0.1'" state=absent
@@ -33,11 +35,12 @@
     - config
 
 - name: 'set listen on on ipv4 addresses'
+  sudo: yes
   sudo_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '*'" state=present
   notify:
-    - start postgresql-9.4 
+    - start postgresql-9.4
     # that is define in ../handlers/main.yml
   tags:
     - config

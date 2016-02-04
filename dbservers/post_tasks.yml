@@ -16,6 +16,7 @@
 
   - name: 'download jdbc connector for postgres'
     delegate_to: web
+    sudo: yes
     sudo_user: tomcat
     get_url: url={{postgres_jdbc_url}} dest=/opt/tomcat/lib
     register: jdbc_installed
