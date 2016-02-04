@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # disable guest additions
-  config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
+  config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
 
   config.vm.define :web,  primary: true do |web_config|
 
