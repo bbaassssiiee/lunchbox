@@ -1,0 +1,85 @@
+---
+# Manage SSH for users with different trust level.
+# this role assumes a folder structure with ssh_pub_keys named after usernames.
+# - pki
+#    - non_users
+#         hank
+#    - sftp_users
+#         karen
+#    - ssh_users
+#         vagrant
+
+- name: 'make sure package openssh-clients is latest'
+  yum: name=openssh-clients state=latest
+
+- name: 'make sure package openssh-server is latest'
+  yum: name=openssh-server state=latest
+
+- name: 'create central directory for authorized_keys'
+  file: dest=/etc/ssh/authorized_keys
+          state=directory owner=root group=root mode=0755
+
+- name: 'create sftp group for chrooted users'
+  group: name=sftp gid=2003 state=present
+
+- name: 'create the sftp user in the sftp group'
+  user: name={{ item|basename }} group=sftp
+        shell="/bin/false"
+        home=/home/{{ item|basename }} createhome=yes
+        state=present
+  with_fileglob:
+    - pki/sftp_users/*
+
+- name: 'set permissions on homedir'
+  file: dest=/home/{{ item|basename }} owner=root group=root mode=755
+  with_fileglob:
+    - pki/sftp_users/*
+
+- name: 'make sure dir for files exists'
+  file: dest=/home/{{ item|basename }}/files state=directory
+        owner={{ item|basename }} group=users mode=2775
+  with_fileglob:
+    - pki/sftp_users/*
+
+- name: 'install all authorized keys from the directory pki/sftp_users'
+  authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
+                  key="{{ lookup('file', item) }}"
+                  user={{ item|basename }}
+                  manage_dir=no
+                  state=present
+  with_fileglob:
+    - pki/sftp_users/*
+
+- name: 'make sure all ssh_users have a user'
+  user: name={{ item|basename }} shell=/bin/bash state=present
+  with_fileglob:
+    - pki/ssh_users/*
+
+- name: 'install all authorized keys from the directory pki/ssh_users'
+  authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
+                  key="{{ lookup('file', item) }}"
+                  user={{ item|basename }}
+                  manage_dir=no
+                  state=present
+  with_fileglob:
+    - pki/ssh_users/*
+
+- name: 'make sure all non_users are removed'
+  user: name={{ item|basename }} groups= state=absent remove=yes
+  with_fileglob:
+    - pki/non_users/*
+
+- name: 'make sure all keys of non_users are removed'
+  file: dest=/etc/ssh/authorized_keys/{{ item|basename }} state=absent
+  with_fileglob:
+    - pki/non_users/*
+
+- name: 'build and write /etc/ssh/ssh_config file'
+  template: src=ssh_config dest=/etc/ssh/ssh_config owner=root group=root mode=0644
+
+- name: 'build and write /etc/ssh/sshd_config file'
+  template: src=sshd_config dest=/etc/ssh/sshd_config owner=root group=root mode=0644
+  notify:
+    - restart sshd
+
+
