@@ -17,7 +17,7 @@
   fetch: src={{inventory_hostname}}.csr dest=pki/{{inventory_hostname}}.csr flat=yes
 
 - name: 'CA-sign webserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
-  sudo: no
+  become: no
   local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/{{inventory_hostname}}.csr -CA pki/RootCA.pem -CAkey pki/RootCA.key -CAcreateserial -out pki/{{inventory_hostname}}.crt -days 180'
 
 - name: 'copy signed certificate to webserver'

@@ -7,26 +7,26 @@
    - ntp
 
 - name: 'start synchronizing the system clock'
-  sudo: yes
+  become: yes
   service: name=ntpd state=started enabled=yes
 
 - name: 'set hostname'
-  sudo: yes
+  become: yes
   hostname: name='{{inventory_hostname}}'
 
 - name: 'persist hostname in hosts file'
-  sudo: yes
+  become: yes
   lineinfile: dest=/etc/hosts regexp='{{inventory_hostname}}'
               line='{{ansible_eth1.ipv4.address}}   {{inventory_hostname}}'
               state=present
 
 - name: 'persist localhost in hosts file'
-  sudo: yes
+  become: yes
   lineinfile: dest=/etc/hosts regexp='^127.0.0.1'
               line='127.0.0.1   localhost.localdomain localhost'
               state=present
 
 - name: 'add domain name resolver'
-  sudo: yes
+  become: yes
   lineinfile: dest=/etc/resolv.conf regexp='^nameserver'
               line='nameserver {{dns_nameserver}}' state=present

@@ -2,14 +2,14 @@
 # master playbook
 - name: common stuff for all hosts
   hosts: all:!local
-  remote_user: vagrant
-  sudo: yes
+  remote_user: "{{ ansible_user }}"
+  become: yes
+
+- include: playbooks/sysctl/sysctl.yml
+- include: playbooks/localtime/localtime.yml
+- include: playbooks/ntp/ntp.yml
+- include: playbooks/cron/cron.yml
+- include: playbooks/motd/motd.yml
 
 - include: dbservers.yml
 - include: webservers.yml
-
-- include: playbooks/cron/cron.yml
-- include: playbooks/localtime/localtime.yml
-- include: playbooks/motd/motd.yml
-- include: playbooks/ntp/ntp.yml
-- include: playbooks/sysctl/sysctl.yml

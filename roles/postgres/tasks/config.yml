@@ -2,7 +2,7 @@
 
 - name: 'init postgresql database'
   command: service postgresql-9.4 initdb creates=/var/lib/pgsql/9.3/data/postgresql.conf
-  sudo: yes
+  become: yes
   notify:
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
@@ -11,15 +11,15 @@
 
 - name: 'ensure postgresql is running automatically at boot'
   service: name=postgresql-9.4 enabled=yes
-  sudo: yes
+  become: yes
   when: ansible_os_family == "RedHat"
   tags:
     - install
 
 - name: 'configure pg_hba.conf'
   template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.4/data/pg_hba.conf backup=on
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   notify:
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
@@ -27,16 +27,16 @@
     - config
 
 - name: 'unset ip to listen on to ipv4 localhost'
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '127.0.0.1'" state=absent
   tags:
     - config
 
 - name: 'set listen on on ipv4 addresses'
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '*'" state=present
   notify:

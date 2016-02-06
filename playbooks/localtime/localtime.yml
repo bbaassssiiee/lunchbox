@@ -1,11 +1,10 @@
 ---
 - hosts: all:!local
-  user: vagrant
-  sudo: True
+  become: True
 
   tasks:
   - name: remove /etc/localtime
     action: file path=/etc/localtime state=absent
 
-  - name: link /etc/localtime to /usr/share/zoneinfo/Europe/Amsterdam
-    action: file src=/usr/share/zoneinfo/Europe/Amsterdam dest=/etc/localtime state=link owner=root group=root
+  - name: link /etc/localtime to /usr/share/zoneinfo/CET
+    action: file src=/usr/share/zoneinfo/CET dest=/etc/localtime state=link owner=root group=root

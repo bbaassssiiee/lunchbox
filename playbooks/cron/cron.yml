@@ -1,7 +1,6 @@
 ---
 - hosts: all:!local
-  user: vagrant
-  sudo: True
+  become: True
 
   tasks:
   - name: make sure package vixie-cron is installed

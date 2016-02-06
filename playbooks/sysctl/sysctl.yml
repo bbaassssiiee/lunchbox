@@ -1,7 +1,6 @@
 ---
 - hosts: all:!local
-  user: vagrant
-  sudo: True
+  become: True
   gather_facts: False
 
   tasks:

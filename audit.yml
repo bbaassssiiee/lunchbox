@@ -1,6 +1,6 @@
 - hosts: webservers
   gather_facts: False
-  sudo: yes
+  become: yes
 
   vars:
   - benchmark: 'U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark.zip'

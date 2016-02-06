@@ -2,17 +2,18 @@
 
 - name: webapp server setup
   hosts: webservers
-  sudo: yes
+  become: yes
 
   pre_tasks:
     - include: webservers/pre_tasks.yml
 
   roles:
     - common
+    - ssh
+    - reverse_proxy
     - geerlingguy.java
     - hostclick.tomcat
-    - reverse_proxy
-    - RHEL6-STIG
+#    - RHEL6-STIG
 
   post_tasks:
     - include: webservers/post_tasks.yml

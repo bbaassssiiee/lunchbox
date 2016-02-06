@@ -1,9 +1,9 @@
 ---
 # handlers file for actions that are notified: by a play
 - name: 'start postgresql-9.4'
-  sudo: yes
+  become: yes
   service: name=postgresql-9.4 state=started
 
 - name: 'restart postgresql-9.4'
-  sudo: yes
+  become: yes
   service: name=postgresql-9.4 state=restarted

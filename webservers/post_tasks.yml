@@ -11,7 +11,7 @@
       - verify
 
   - name: 'verify firewall and reverse proxy'
-    sudo: no
+    become: no
     local_action: uri url=http://web/examples/ status_code=200
                       validate_certs=no
     tags:
