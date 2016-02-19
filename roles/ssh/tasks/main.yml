@@ -19,6 +19,32 @@
   file: dest=/etc/ssh/authorized_keys
           state=directory owner=root group=root mode=0755
 
+- name: 'make sure ansible_user exists'
+  user: name={{ ansible_user }} shell=/bin/bash state=present
+
+- name: 'install all authorized keys from the directory pki/ansible_users'
+  authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
+                  key="{{ lookup('file', item) }}"
+                  user={{ ansible_user }}
+                  manage_dir=no
+                  state=present
+  with_fileglob:
+    - pki/ssh_users/*
+
+- name: 'make sure all ssh_users have a user'
+  user: name={{ item|basename }} shell=/bin/bash state=present
+  with_fileglob:
+    - pki/ssh_users/*
+
+- name: 'install all authorized keys from the directory pki/ssh_users'
+  authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
+                  key="{{ lookup('file', item) }}"
+                  user={{ item|basename }}
+                  manage_dir=no
+                  state=present
+  with_fileglob:
+    - pki/ssh_users/*
+
 - name: 'create sftp group for chrooted users'
   group: name=sftp gid=2003 state=present
 
@@ -49,20 +75,6 @@
                   state=present
   with_fileglob:
     - pki/sftp_users/*
-
-- name: 'make sure all ssh_users have a user'
-  user: name={{ item|basename }} shell=/bin/bash state=present
-  with_fileglob:
-    - pki/ssh_users/*
-
-- name: 'install all authorized keys from the directory pki/ssh_users'
-  authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
-                  key="{{ lookup('file', item) }}"
-                  user={{ item|basename }}
-                  manage_dir=no
-                  state=present
-  with_fileglob:
-    - pki/ssh_users/*
 
 - name: 'make sure all non_users are removed'
   user: name={{ item|basename }} groups= state=absent remove=yes

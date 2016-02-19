@@ -26,7 +26,9 @@
 #   RhostsRSAAuthentication no
 #   RSAAuthentication yes
 #   PasswordAuthentication yes
+   PasswordAuthentication no
 #   HostbasedAuthentication no
+HashKnownHosts yes
 #   BatchMode no
 #   CheckHostIP yes
 #   AddressFamily any
