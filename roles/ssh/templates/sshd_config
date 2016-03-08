@@ -28,7 +28,7 @@ SyslogFacility AUTHPRIV
 TCPKeepAlive yes
 UseDNS no
 UsePrivilegeSeparation yes
-X11Forwarding yes
+X11Forwarding no
 
 Ciphers aes256-ctr,aes192-ctr,aes128-ctr,arcfour256
 
