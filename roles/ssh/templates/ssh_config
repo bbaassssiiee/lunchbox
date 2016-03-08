@@ -23,6 +23,7 @@
 # Host *
    ForwardAgent yes
    ForwardX11 yes
+   UseRoaming no
 #   RhostsRSAAuthentication no
 #   RSAAuthentication yes
 #   PasswordAuthentication yes
