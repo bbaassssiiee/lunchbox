@@ -22,6 +22,14 @@
 - name: 'make sure ansible_user exists'
   user: name={{ ansible_user }} shell=/bin/bash state=present
 
+- name: 'make sure ansible_user is for non-interactive use'
+  copy: src=bash_profile
+            dest=/home/{{ ansible_user }}/.bash_profile
+            owner={{ ansible_user }}
+            group={{ ansible_user }}
+            mode=0400
+  when: no_interactive_use == 'yes'
+
 - name: 'install all authorized keys from the directory pki/ansible_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
                   key="{{ lookup('file', item) }}"
@@ -29,7 +37,7 @@
                   manage_dir=no
                   state=present
   with_fileglob:
-    - pki/ssh_users/*
+    - pki/ansible_users/*
 
 - name: 'make sure all ssh_users have a user'
   user: name={{ item|basename }} shell=/bin/bash state=present

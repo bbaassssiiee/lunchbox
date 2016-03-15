@@ -1,5 +1,6 @@
 # here we assign variables to all groups
 ansible_user: vagrant
+no_interactive_use: no
 
 dns_nameserver: 8.8.4.4
 

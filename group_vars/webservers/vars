@@ -3,6 +3,18 @@
 java_packages:
   - java-1.8.0-openjdk
 
+tomcat_apps:
+   - app_name: tomcat
+     user_id: 8080
+     server_port: 8006
+     http_port: 8080
+     https_port: 8443
+     ajp_port: 8009
+     admin_username: tomcat
+     admin_password: tomcat
+     xms: 512M
+     xmx: 512M
+
 rhel6stig_cat1: true
 rhel6stig_cat2: true
 rhel6stig_cat3: true

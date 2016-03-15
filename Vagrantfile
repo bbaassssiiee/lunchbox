@@ -24,19 +24,6 @@ Vagrant.configure("2") do |config|
     ansible.host_key_checking = "false"
   end
 
-  #config.vm.synced_folder "./", "/vagrant", :nfs => true, :mount_options => ['vers=3','noatime','actimeo=2', 'tcp', 'fsc']
-
-  config.vm.define :sql, autostart: true do |sql_config|
-    sql_config.vm.network "private_network", ip: "192.168.20.22", :netmask => "255.255.255.0",  auto_config: true
-    sql_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
-
-    sql_config.vm.provider "virtualbox" do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024", "--natnet1", "172.16.1/24"]
-      vb.gui = false
-      vb.name = "sql"
-    end
-  end
-
   config.vm.define :web,  primary: true do |web_config|
 
     # This host only network for use of Apache as a webdav
@@ -50,6 +37,18 @@ Vagrant.configure("2") do |config|
       vb.gui = false
     end
 
+  end
+  #config.vm.synced_folder "./", "/vagrant", :nfs => true, :mount_options => ['vers=3','noatime','actimeo=2', 'tcp', 'fsc']
+
+  config.vm.define :sql, autostart: true do |sql_config|
+    sql_config.vm.network "private_network", ip: "192.168.20.22", :netmask => "255.255.255.0",  auto_config: true
+    sql_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2223, auto_correct: true
+
+    sql_config.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", "1024", "--natnet1", "172.16.1/24"]
+      vb.gui = false
+      vb.name = "sql"
+    end
   end
 
 end
