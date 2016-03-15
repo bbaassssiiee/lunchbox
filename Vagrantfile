@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :web,  primary: true do |web_config|
 
-    # This host only network for use of Apache as a webdav
+    # This host only network for use of Apache
     web_config.vm.network "private_network", ip: "192.168.20.20", :netmask => "255.255.255.0",  auto_config: true
     # To access this host use: 'vagrant ssh dev'
     web_config.vm.network "forwarded_port", id: 'ssh', guest: 22, host: 2222, auto_correct: true
