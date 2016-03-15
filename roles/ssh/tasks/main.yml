@@ -19,6 +19,9 @@
   file: dest=/etc/ssh/authorized_keys
           state=directory owner=root group=root mode=0755
 
+- name: 'unlock central authorized_keys files for writing'
+  shell: chattr -i /etc/ssh/authorized_keys/*
+
 - name: 'make sure ansible_user exists'
   user: name={{ ansible_user }} shell=/bin/bash state=present
 
@@ -30,19 +33,22 @@
             mode=0400
   when: no_interactive_use == 'yes'
 
-- name: 'install all authorized keys from the directory pki/ansible_users'
+- name: 'install all authorized keys from the directory pki/ansible_user'
   authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
                   key="{{ lookup('file', item) }}"
                   user={{ ansible_user }}
                   manage_dir=no
                   state=present
   with_fileglob:
-    - pki/ansible_users/*
+    - pki/ansible_user/*
 
 - name: 'make sure all ssh_users have a user'
   user: name={{ item|basename }} shell=/bin/bash state=present
   with_fileglob:
     - pki/ssh_users/*
+
+- name: 'make sure no user has authorized_keys in their homedir'
+  shell: rm -f /home/*/.ssh/authorized_keys*
 
 - name: 'install all authorized keys from the directory pki/ssh_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
@@ -93,6 +99,9 @@
   file: dest=/etc/ssh/authorized_keys/{{ item|basename }} state=absent
   with_fileglob:
     - pki/non_users/*
+
+- name: 'lock central authorized_keys files for writing'
+  shell: chattr +i /etc/ssh/authorized_keys/*
 
 - name: 'build and write /etc/ssh/ssh_config file'
   template: src=ssh_config dest=/etc/ssh/ssh_config owner=root group=root mode=0644
