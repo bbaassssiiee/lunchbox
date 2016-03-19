@@ -9,7 +9,7 @@ pki
 roles/RHEL6-STIG/
 roles/geerlingguy.java/
 roles/hostclick.tomcat/
-roles/bbaassssiiee.commoncentos/
+roles/bbaassssiiee.commoncentos
 
 # Packer builds
 output-virtualbox-iso
