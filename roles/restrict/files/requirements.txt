@@ -4,3 +4,4 @@ pycrypto
 PyYAML
 wsgiref
 httplib2
+requests

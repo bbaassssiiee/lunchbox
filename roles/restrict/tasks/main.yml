@@ -31,6 +31,7 @@
   with_items:
     - /bin/mkdir
     - /bin/echo
+    - /bin/rm
 
 - name: 'copy sh'
   become: yes
@@ -42,6 +43,7 @@
   with_items:
     - mkdir
     - echo
+    - rm
     - sh
 
 - name: 'copy sudo'
