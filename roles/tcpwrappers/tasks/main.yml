@@ -1,0 +1,7 @@
+---
+
+- name: 'create /etc/hosts.deny tcpwrappers file'
+  template: src=hosts.deny.j2 dest=/etc/hosts.deny owner=root group=root mode=0644
+
+- name: 'create /etc/hosts.allow tcpwrappers file'
+  template: src=hosts.allow.j2 dest=/etc/hosts.allow owner=root group=root mode=0644

@@ -21,17 +21,10 @@
 
 - name: 'unlock central authorized_keys files for writing'
   shell: chattr -i /etc/ssh/authorized_keys/*
+  ignore_errors: yes
 
 - name: 'make sure ansible_user exists'
-  user: name={{ ansible_user }} shell=/bin/bash state=present
-
-- name: 'make sure ansible_user is for non-interactive use'
-  copy: src=bash_profile
-            dest=/home/{{ ansible_user }}/.bash_profile
-            owner={{ ansible_user }}
-            group={{ ansible_user }}
-            mode=0400
-  when: no_interactive_use == 'yes'
+  user: name={{ ansible_user }} shell=/bin/rbash state=present
 
 - name: 'install all authorized keys from the directory pki/ansible_user'
   authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}

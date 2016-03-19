@@ -1,26 +1,37 @@
 # sshd_config file managed through ansible
 # ansible_managed
 
-# Store keys in a central space, not editable by users
+AddressFamily inet
 AuthorizedKeysFile /etc/ssh/authorized_keys/%u
-
 ChallengeResponseAuthentication no
 ClientAliveInterval 300
 Compression yes
+Ciphers aes256-ctr,aes192-ctr,aes128-ctr
+GatewayPorts no
+GSSAPIAuthentication no
+HostbasedAuthentication no
 IgnoreRhosts yes
 IgnoreUserKnownHosts yes
 KeepAlive yes
+KerberosAuthentication no
+KexAlgorithms diffie-hellman-group-exchange-sha256
 KeyRegenerationInterval 3600
 LoginGraceTime 2m
-LogLevel INFO
+LogLevel VERBOSE
+MACs hmac-sha2-512,hmac-sha2-256
 MaxAuthTries 5
 PasswordAuthentication no
 PermitEmptyPasswords no
 PermitRootLogin no
+PermitTunnel no
+PermitUserEnvironment no
 Port 22
-PrintMotd yes
+PrintMotd no
+PrintLastLog no
 Protocol 2
 PubkeyAuthentication yes
+RequiredAuthentications2 publickey
+RhostsRSAAuthentication no
 StrictModes yes
 Subsystem       sftp    internal-sftp
 SyslogFacility AUTH
@@ -30,9 +41,12 @@ UseDNS no
 UsePrivilegeSeparation yes
 X11Forwarding no
 
-Ciphers aes256-ctr,aes192-ctr,aes128-ctr,arcfour256
+# OpenSSH 5.3 supported HostKey algorithms by order of preference.
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
 
-MACs hmac-sha2-512,hmac-sha2-256,hmac-sha1,hmac-ripemd160
+
+
 
 Match Group sftp
     ChrootDirectory %h

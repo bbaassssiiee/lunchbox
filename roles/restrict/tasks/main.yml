@@ -1,0 +1,64 @@
+---
+
+- name: 'link bash to rbash'
+  become: yes
+  file: src=/bin/bash dest=/bin/rbash owner=root group=root state=hard
+
+- name: 'restricted shell for ansible user'
+  become: yes
+  user: name={{ ansible_user }} shell=/bin/rbash
+
+- name: 'install python packages'
+  become: yes
+  yum: name={{ item }} state=installed
+  with_items:
+    - python-virtualenv
+    - python-pip
+
+- name: 'copy requirements'
+  copy: src=requirements.txt dest=/tmp/requirements.txt
+
+- name: 'create virtualenv'
+  pip: requirements=/tmp/requirements.txt virtualenv=/home/{{ansible_user}} virtualenv_site_packages=yes
+
+- name: 'set permissions virtualenv'
+  become: yes
+  command: chmod -R go+rx /home/{{ansible_user}}
+
+- name: 'copy tools'
+  become: yes
+  command: cp {{ item }} /home/{{ansible_user}}/bin
+  with_items:
+    - /bin/mkdir
+    - /bin/echo
+
+- name: 'copy sh'
+  become: yes
+  command: cp /bin/sh /home/{{ansible_user}}/bin/sh creates=/home/{{ansible_user}}/bin/sh
+
+- name: 'set permissions'
+  become: yes
+  shell: chmod go+rx /home/{{ ansible_user }}/bin/{{ item }}
+  with_items:
+    - mkdir
+    - echo
+    - sh
+
+- name: 'copy sudo'
+  become: yes
+  command: cp /usr/bin/sudo /home/{{ansible_user}}/bin/sudo creates=/home/{{ansible_user}}/bin/sudo
+
+- name: 'set suid on sudo'
+  become: yes
+  file: path=/home/{{ ansible_user }}/bin/sudo mode=4111 owner=root group=root
+
+- name: 'create bashrc'
+  template: src=bashrc.j2 dest=/home/{{ansible_user}}/.bashrc mode=0400
+
+- name: 'make sure ansible_user is for non-interactive use'
+  copy: src=bash_profile
+            dest=/home/{{ ansible_user }}/.bash_profile
+            owner={{ ansible_user }}
+            group={{ ansible_user }}
+            mode=0400
+

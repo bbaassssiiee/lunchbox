@@ -8,6 +8,8 @@
     - include: webservers/pre_tasks.yml
 
   roles:
+    - restrict
+
     - common
     - ssh
     - reverse_proxy
