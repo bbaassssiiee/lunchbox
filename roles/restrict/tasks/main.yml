@@ -33,7 +33,7 @@
 
 - name: 'link tar to gtar'
   become: yes
-  file: src=/bin/tar dest=/bin/gtar owner=root group=root state=hard force=yes
+  file: src=/home/{{ansible_user}}/bin/tar dest=/home/{{ansible_user}}/bin/gtar owner=root group=root state=hard force=yes
 
 - name: 'copy sh'
   become: yes
