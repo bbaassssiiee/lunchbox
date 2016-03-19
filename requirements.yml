@@ -2,12 +2,15 @@
 
 # Cross platform Java role, needs vars to be configured.
 
+- src: bbaassssiiee.commoncentos
+  path: ./roles/
+
 - src: geerlingguy.java
   path: ./roles/
 
 - src: hostclick.tomcat
   path: ./roles/
 
-- src: https://github.com/MindPointGroup/RHEL6-STIG.git
+- src: https://github.com/bbaassssiiee/RHEL6-STIG.git
   version: devel
   path: ./roles/

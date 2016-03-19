@@ -1,7 +1,3 @@
-Jinja2
-paramiko
-pycrypto
-PyYAML
 wsgiref
 httplib2
 requests

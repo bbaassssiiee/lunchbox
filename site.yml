@@ -5,8 +5,5 @@
   remote_user: "{{ ansible_user }}"
   become: yes
 
-- include: playbooks/sysctl/sysctl.yml
-- include: playbooks/cron/cron.yml
-
 - include: dbservers.yml
 - include: webservers.yml

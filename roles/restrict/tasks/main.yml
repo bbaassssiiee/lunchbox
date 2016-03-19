@@ -1,13 +1,5 @@
 ---
 
-- name: 'link bash to rbash'
-  become: yes
-  file: src=/bin/bash dest=/bin/rbash owner=root group=root state=hard
-
-- name: 'restricted shell for ansible user'
-  become: yes
-  user: name={{ ansible_user }} shell=/bin/rbash
-
 - name: 'install python packages'
   become: yes
   yum: name={{ item }} state=installed
@@ -25,6 +17,10 @@
   become: yes
   command: chmod -R go+rx /home/{{ansible_user}}
 
+- name: 'link bash to rbash'
+  become: yes
+  file: src=/bin/bash dest=/bin/rbash owner=root group=root state=hard force=yes
+
 - name: 'copy tools'
   become: yes
   command: cp {{ item }} /home/{{ansible_user}}/bin
@@ -32,7 +28,12 @@
     - /bin/mkdir
     - /bin/echo
     - /bin/rm
+    - /bin/rbash
     - /bin/tar
+
+- name: 'link tar to gtar'
+  become: yes
+  file: src=/bin/tar dest=/bin/gtar owner=root group=root state=hard force=yes
 
 - name: 'copy sh'
   become: yes
@@ -46,6 +47,7 @@
     - echo
     - rm
     - sh
+    - rbash
     - tar
 
 - name: 'copy sudo'
@@ -66,3 +68,6 @@
             group={{ ansible_user }}
             mode=0400
 
+- name: 'restricted shell for ansible user'
+  become: yes
+  user: name={{ ansible_user }} shell=/bin/rbash

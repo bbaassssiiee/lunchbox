@@ -10,12 +10,13 @@
   roles:
     - restrict
 
-    - common
+    - bbaassssiiee.commoncentos
+    - RHEL6-STIG
     - ssh
     - reverse_proxy
     - geerlingguy.java
     - hostclick.tomcat
-#    - RHEL6-STIG
+
 
   post_tasks:
     - include: webservers/post_tasks.yml
