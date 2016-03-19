@@ -32,6 +32,7 @@
     - /bin/mkdir
     - /bin/echo
     - /bin/rm
+    - /bin/tar
 
 - name: 'copy sh'
   become: yes
@@ -45,6 +46,7 @@
     - echo
     - rm
     - sh
+    - tar
 
 - name: 'copy sudo'
   become: yes
