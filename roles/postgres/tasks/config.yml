@@ -17,9 +17,9 @@
     - install
 
 - name: 'configure pg_hba.conf'
-  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.4/data/pg_hba.conf backup=on
+  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.4/data/pg_hba.conf backup=no
+            owner=postgres
   become: yes
-  become_user: postgres
   notify:
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
@@ -28,7 +28,6 @@
 
 - name: 'unset ip to listen on to ipv4 localhost'
   become: yes
-  become_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '127.0.0.1'" state=absent
   tags:
@@ -36,7 +35,6 @@
 
 - name: 'set listen on on ipv4 addresses'
   become: yes
-  become_user: postgres
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '*'" state=present
   notify:

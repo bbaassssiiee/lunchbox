@@ -2,6 +2,7 @@
 
 - name: database server setup
   hosts: dbservers
+  become: yes
   gather_facts: True
 
   pre_tasks:
@@ -9,6 +10,7 @@
 
   roles:
     - bbaassssiiee.commoncentos
+    - ssh
     - postgres
 
   tasks: []
