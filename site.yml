@@ -3,7 +3,6 @@
 - name: common stuff for all hosts
   hosts: all:!local
   remote_user: "{{ ansible_user }}"
-  become: yes
 
 - include: dbservers.yml
 - include: webservers.yml

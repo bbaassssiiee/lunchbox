@@ -8,7 +8,7 @@
     - include: dbservers/pre_tasks.yml
 
   roles:
-    - common
+    - bbaassssiiee.commoncentos
     - postgres
 
   tasks: []

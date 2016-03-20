@@ -1,0 +1,4 @@
+if [[ $- = *i* ]]; then
+    exit
+    # because interactive shell
+fi

@@ -9,9 +9,8 @@
 
   roles:
     - restrict
-
-    - bbaassssiiee.commoncentos
     - RHEL6-STIG
+    - bbaassssiiee.commoncentos
     - ssh
     - reverse_proxy
     - geerlingguy.java
