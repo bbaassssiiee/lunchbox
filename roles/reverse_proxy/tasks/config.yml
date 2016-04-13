@@ -25,8 +25,8 @@
   lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerTokens '
               line='ServerTokens Prod' state=present
 
-- name: 'enable network connect for apache'
-  command: /usr/sbin/setsebool httpd_can_network_connect 1
+- name: 'enable network connect for webserver'
+  seboolean: name=httpd_can_network_connect persistent=yes state=yes
 
 - name: 'start httpd service'
   service: name=httpd enabled=true
