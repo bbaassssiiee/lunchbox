@@ -17,10 +17,10 @@ Vagrant.configure("2") do |config|
   # If ansible is in your path it will provision from your HOST machine
   # If ansible is not found in the path it will be instaled in the VM and provisioned from there
   config.vm.provision "ansible" do |ansible|
-    ansible.inventory_path = "inventory.ini"
-    ansible.playbook = "site.yml"
+    ansible.inventory_path = "vagrant.ini"
+    ansible.playbook = "vagrant.yml"
     ansible.raw_arguments = "--ask-vault-pass"
-    ansible.verbose = "vv"
+    ansible.verbose = "vvvv"
     ansible.host_key_checking = "false"
   end
 
@@ -52,5 +52,4 @@ Vagrant.configure("2") do |config|
   end
 
 end
-
 
