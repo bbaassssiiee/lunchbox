@@ -23,9 +23,6 @@
   shell: chattr -i /etc/ssh/authorized_keys/*
   ignore_errors: yes
 
-- name: 'make sure ansible_user exists'
-  user: name={{ ansible_user }} shell=/bin/rbash state=present
-
 - name: 'install all authorized keys from the directory pki/ansible_user'
   authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
                   key="{{ lookup('file', item) }}"
@@ -33,12 +30,12 @@
                   manage_dir=no
                   state=present
   with_fileglob:
-    - pki/ansible_user/*
+    - ../../../pki/ansible_user/*
 
 - name: 'make sure all ssh_users have a user'
   user: name={{ item|basename }} shell=/bin/bash state=present
   with_fileglob:
-    - pki/ssh_users/*
+    - ../../../pki/ssh_users/*
 
 - name: 'make sure no user has authorized_keys in their homedir'
   shell: rm -f /home/*/.ssh/authorized_keys*
@@ -50,7 +47,7 @@
                   manage_dir=no
                   state=present
   with_fileglob:
-    - pki/ssh_users/*
+    - ../../../pki/ssh_users/*
 
 - name: 'create sftp group for chrooted users'
   group: name=sftp gid=2003 state=present
@@ -61,18 +58,18 @@
         home=/home/{{ item|basename }} createhome=yes
         state=present
   with_fileglob:
-    - pki/sftp_users/*
+    - ../../../pki/sftp_users/*
 
 - name: 'set permissions on homedir'
   file: dest=/home/{{ item|basename }} owner=root group=root mode=755
   with_fileglob:
-    - pki/sftp_users/*
+    - ../../../pki/sftp_users/*
 
 - name: 'make sure dir for files exists'
   file: dest=/home/{{ item|basename }}/files state=directory
         owner={{ item|basename }} group=users mode=2775
   with_fileglob:
-    - pki/sftp_users/*
+    - ../../../pki/sftp_users/*
 
 - name: 'install all authorized keys from the directory pki/sftp_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
@@ -81,17 +78,17 @@
                   manage_dir=no
                   state=present
   with_fileglob:
-    - pki/sftp_users/*
+    - ../../../pki/sftp_users/*
 
 - name: 'make sure all non_users are removed'
   user: name={{ item|basename }} groups= state=absent remove=yes
   with_fileglob:
-    - pki/non_users/*
+    - ../../../pki/non_users/*
 
 - name: 'make sure all keys of non_users are removed'
   file: dest=/etc/ssh/authorized_keys/{{ item|basename }} state=absent
   with_fileglob:
-    - pki/non_users/*
+    - ../../../pki/non_users/*
 
 - name: 'lock central authorized_keys files for writing'
   shell: chattr +i /etc/ssh/authorized_keys/*
