@@ -12,4 +12,4 @@ pip install --upgrade -r requirements.txt
 vagrant up --no-provision
 
 # Provision the VMs
-ansible-playbook --ask-vault-pass site.yml
+ansible-playbook --ask-vault-pass vagrant.yml

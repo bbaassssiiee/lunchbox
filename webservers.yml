@@ -8,9 +8,8 @@
     - include: webservers/pre_tasks.yml
 
   roles:
-    - restrict
-    - RHEL6-STIG
     - bbaassssiiee.commoncentos
+    - RHEL6-STIG
     - ssh
     - reverse_proxy
     - geerlingguy.java

@@ -12,5 +12,4 @@
   path: ./roles/
 
 - src: https://github.com/bbaassssiiee/RHEL6-STIG.git
-  version: devel
   path: ./roles/

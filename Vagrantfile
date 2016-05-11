@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     ansible.inventory_path = "vagrant.ini"
     ansible.playbook = "vagrant.yml"
     ansible.raw_arguments = "--ask-vault-pass"
-    ansible.verbose = "vvvv"
+    ansible.verbose = "vv"
     ansible.host_key_checking = "false"
   end
 
