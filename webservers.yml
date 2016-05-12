@@ -9,10 +9,10 @@
 
   roles:
     - bbaassssiiee.commoncentos
-    - RHEL6-STIG
     - ssh
+    - tcpwrappers
     - reverse_proxy
-    - geerlingguy.java
+    - oracle_java8
     - hostclick.tomcat
 
 

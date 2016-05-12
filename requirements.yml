@@ -5,11 +5,5 @@
 - src: bbaassssiiee.commoncentos
   path: ./roles/
 
-- src: geerlingguy.java
-  path: ./roles/
-
 - src: hostclick.tomcat
-  path: ./roles/
-
-- src: https://github.com/bbaassssiiee/RHEL6-STIG.git
   path: ./roles/

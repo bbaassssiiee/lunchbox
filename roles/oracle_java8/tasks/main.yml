@@ -1,0 +1,21 @@
+---
+- name: clean yum cache
+  become: yes
+  command: yum clean all
+  
+- name: get Oracle Java 8 with wget
+  become: yes
+  command: 'wget -q --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-x64.rpm"'
+  register: download
+  args:
+    creates: jdk-8u73-linux-x64.rpm
+  tags:
+    - java8
+
+- name: install Oracle Java 8 with yum
+  become: yes
+  command: yum -y localinstall jdk-8u73-linux-x64.rpm
+  register: yuminstall
+  changed_when: "'Complete' in yuminstall.stdout"
+  tags:
+    - java8
