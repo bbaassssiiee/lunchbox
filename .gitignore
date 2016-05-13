@@ -1,3 +1,8 @@
+# Generated files
+U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark.zip
+results.xml
+rhel-stig-report.html
+
 
 # rm -rf .vagrant to release your burdens.
 .vagrant

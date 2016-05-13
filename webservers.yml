@@ -8,7 +8,7 @@
     - include: webservers/pre_tasks.yml
 
   roles:
-    - bbaassssiiee.commoncentos
+    - common
     - ssh
     - tcpwrappers
     - reverse_proxy

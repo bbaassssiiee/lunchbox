@@ -9,7 +9,7 @@
     - include: dbservers/pre_tasks.yml
 
   roles:
-    - bbaassssiiee.commoncentos
+    - common
     - ssh
     - postgres
 

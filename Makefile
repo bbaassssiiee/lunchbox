@@ -1,6 +1,6 @@
 all: install
 	vagrant up --no-provision
-	ansible-playbook site.yml
+	ansible-playbook vagrant.yml
 
 install:
 	./run_this_first.sh

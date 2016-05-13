@@ -1,0 +1,60 @@
+---
+
+- name: 'install packages for systems management'
+  yum: name={{ item }} state=present
+  with_items:
+   - aide
+   - iptables
+   - libselinux-python
+   - libsemanage-python
+   - ntp
+   - openswan
+   - policycoreutils-python
+   - screen
+   - unzip
+
+- name: 'start synchronizing the system clock'
+  service: name=ntpd state=started enabled=yes
+
+- name: 'System security patches and updates must be installed and up-to-date'
+  yum: name=* state=latest
+
+# EPEL Yum repository adds Extra Packages for Enterprise Linux
+- name: 'add EPEL yum repo'
+  yum: name=epel-release state=present
+  when: internet is defined
+
+- name: 'set hostname'
+  hostname: name={{ inventory_hostname }}
+  tags:
+    - hosts
+
+- name: 'build hosts file'
+  template: src=hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
+  tags:
+    - hosts
+     
+- name: 'create banner for login'
+  copy: 
+      src: issue 
+      dest: /etc/{{ item }} 
+      owner: root 
+      group: root 
+      mode: "0644" 
+      backup: yes
+  with_items:
+    - issue
+    - issue.net
+    
+- name: "SSH daemon needs a ClientAliveInterval"
+  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^ClientAliveInterval' line='ClientAliveInterval 36000'"
+
+- name: "SSH daemon needs a ClientAliveCountMax"
+  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^ClientAliveCountMax' line='ClientAliveCountMax 0'"
+
+
+- name: "SSH daemon needs to present a legal banner"
+  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^Banner' line='Banner /etc/issue'"
+
+#- name: 'make sure the secure shell daemon is restarted'
+#  service: name=sshd state=restarted enabled=yes

@@ -9,3 +9,6 @@ echo "The vault password is 'password'."
 
 # To run the provisioner
     ansible-playbook --ask-vault-pass site.yml
+
+# To run the audit
+		ansible-playbook audit.yml
