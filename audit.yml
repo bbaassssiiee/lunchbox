@@ -1,3 +1,5 @@
+#!/usr/bin/env ansible-playbook
+
 - hosts: webservers
   gather_facts: False
   become: yes

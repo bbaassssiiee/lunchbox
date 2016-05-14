@@ -3,21 +3,29 @@
 - name: 'install packages for systems management'
   yum: name={{ item }} state=present
   with_items:
-   - aide
    - iptables
    - libselinux-python
    - libsemanage-python
    - ntp
-   - openswan
    - policycoreutils-python
    - screen
    - unzip
-
+  tags:
+    - harden
+    
 - name: 'start synchronizing the system clock'
   service: name=ntpd state=started enabled=yes
-
+  tags:
+    - harden
+    
 - name: 'System security patches and updates must be installed and up-to-date'
   yum: name=* state=latest
+  tags:
+    - harden
+- name: 'ensure auditing at boot time'
+  command: sed -i '/^\tkernel/ s/$/ audit=1/' /etc/grub.conf
+  tags:
+    - harden
 
 # EPEL Yum repository adds Extra Packages for Enterprise Linux
 - name: 'add EPEL yum repo'
@@ -45,16 +53,5 @@
   with_items:
     - issue
     - issue.net
-    
-- name: "SSH daemon needs a ClientAliveInterval"
-  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^ClientAliveInterval' line='ClientAliveInterval 36000'"
-
-- name: "SSH daemon needs a ClientAliveCountMax"
-  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^ClientAliveCountMax' line='ClientAliveCountMax 0'"
-
-
-- name: "SSH daemon needs to present a legal banner"
-  lineinfile: "state=present backup=no dest=/etc/ssh/sshd_config regexp='^Banner' line='Banner /etc/issue'"
-
-#- name: 'make sure the secure shell daemon is restarted'
-#  service: name=sshd state=restarted enabled=yes
+  tags:
+    - harden
