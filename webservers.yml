@@ -10,6 +10,8 @@
 
   roles:
     - common
+    - pam
+    - rsyslog
     - ssh
     - tcpwrappers
     - reverse_proxy

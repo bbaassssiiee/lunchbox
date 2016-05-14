@@ -1,3 +1,4 @@
+#!/usr/bin/env ansible-playbook
 # playbook for dbserver tier
 
 - name: database server setup
@@ -12,6 +13,7 @@
     - common
     - ssh
     - postgres
+    - rsyslog
 
   tasks: []
 

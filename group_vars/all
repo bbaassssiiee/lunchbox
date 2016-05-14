@@ -1,8 +1,10 @@
 # here we assign variables to all groups
 ansible_user: vagrant
-no_interactive_use: no
 
 dns_nameserver: 8.8.4.4
 
 pg_host: sql
 pg_ip: 192.168.20.22
+
+log_host: sql
+log_host_ip: 192.168.20.22

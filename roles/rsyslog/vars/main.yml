@@ -1,0 +1,3 @@
+---
+
+is_monitor: "'{{ ansible_hostname }}' == '{{ log_host }}'"
