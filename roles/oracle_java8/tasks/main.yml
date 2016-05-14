@@ -2,7 +2,9 @@
 - name: clean yum cache
   become: yes
   command: yum clean all
-  
+  tags:
+    - java8
+    
 - name: get Oracle Java 8 with wget
   become: yes
   command: 'wget -q --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u73-b02/jdk-8u73-linux-x64.rpm"'
@@ -19,3 +21,15 @@
   changed_when: "'Complete' in yuminstall.stdout"
   tags:
     - java8
+
+- name: 'fix JAVA_HOME'
+  become: yes
+  shell: echo export JAVA_HOME=/usr/java/jdk1.8.0_73 > /etc/profile.d/jre.sh
+  tags:
+    - java8
+    
+- name: 'fix permissions'
+  become: yes
+  file: dest=/etc/profile.d/jre.sh mode=0755
+  tags:
+  - java8

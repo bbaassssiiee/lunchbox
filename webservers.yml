@@ -5,9 +5,6 @@
   hosts: webservers
   become: yes
 
-  pre_tasks:
-    - include: webservers/pre_tasks.yml
-
   roles:
     - common
     - pam
