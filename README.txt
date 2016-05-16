@@ -1,14 +1,16 @@
-# Ansible lunchbox is a short training.
+# lunchbox is a training about Ansible.
 
 # This is an example of an Ansible directory tree using best practices.
 
-# To launch the site in virtualbox
-    vagrant up 
+# To launch the site you need 2 VMs in virtualbox, to prepare
 
-echo "The vault password is 'password'."
+    vagrant init dockpack/centos6 
+
 
 # To run the provisioner
-    ansible-playbook --ask-vault-pass site.yml
+    ansible-playbook --ask-vault-pass vagrant.yml
 
-# To run the audit
+  "The vault password is 'password'."
+
+# To run the security audit against the DISA STIG benchmark
 		ansible-playbook audit.yml
