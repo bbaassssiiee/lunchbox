@@ -1,33 +1,40 @@
 ---
+- name: 'make sure log_host is defined'
+  assert:
+    that: "'{{ log_host }}' is defined"
 
-- name: make sure package rsyslog is installed
+- name: 'make sure log_host_ip is defined'
+  assert:
+    that: "'{{ log_host_ip }}' is defined"
+
+- name: 'make sure package rsyslog is installed'
   yum: name=rsyslog state=installed
   notify: remove sysklogd
   tags:
     - rsyslog
 
-- name: copy /etc/rsyslog.conf file for normal host
+- name: 'copy /etc/rsyslog.conf file for normal host'
   template: src=etc-rsyslog.conf.j2 dest=/etc/rsyslog.conf owner=root group=root mode=0600
   tags:
     - rsyslog
     
-- name: rewrite /etc/rsyslog.conf file for remote loghost
+- name: 'rewrite /etc/rsyslog.conf file for remote loghost'
   template: src=etc-rsyslog.loghost.conf.j2 dest=/etc/rsyslog.conf owner=root group=root mode=0600
   when: is_monitor
   tags:
     - rsyslog
   
-- name: copy /etc/sysconfig/rsyslog file
+- name: 'copy /etc/sysconfig/rsyslog file'
   template: src=etc-sysconfig-rsyslog.j2 dest=/etc/sysconfig/rsyslog owner=root group=root mode=0644
   tags:
     - rsyslog
     
-- name: enable rsyslog 
+- name: 'enable rsyslog'
   service: name=rsyslog enabled=yes
   tags:
     - rsyslog
     
-- name: restart rsyslog
+- name: 'restart rsyslog'
   command: service rsyslog restart
   tags:
     - rsyslog

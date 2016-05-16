@@ -9,6 +9,10 @@
 #    - ssh_users
 #         vagrant
 
+- name: 'make sure ansible_user is defined in group_vars'
+  assert:
+    that: "'{{ ansible_user }}' is defined"
+
 - name: 'make sure package openssh-clients is latest'
   yum: name=openssh-clients state=latest
 

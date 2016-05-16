@@ -6,6 +6,6 @@ local   all         dba                               md5
 
 host    all         all         127.0.0.1/32          md5
 
-host    all         all         192.168.0.0/16        trust
+host    all         all         {{ pg_subnet }}        trust
 
 host    all         all         0.0.0.0/0             md5

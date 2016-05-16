@@ -1,5 +1,8 @@
 ---
-
+- name: 'make sure pg_subnet is defined in group_vars'
+  assert:
+    that: "'{{ pg_subnet }}' is defined"
+    
 - name: 'init postgresql database'
   command: service postgresql-9.4 initdb creates=/var/lib/pgsql/9.3/data/postgresql.conf
   become: yes
