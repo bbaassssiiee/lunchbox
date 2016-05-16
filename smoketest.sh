@@ -1,1 +1,1 @@
-ansible-playbook vagrant.yml -i vagrant.ini --tags=verify --private-key=pki/vagrant.rsa --ask-vault-pass
+ansible-playbook vagrant.yml --tags=verify --ask-vault-pass
