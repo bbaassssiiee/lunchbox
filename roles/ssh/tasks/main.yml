@@ -23,6 +23,9 @@
   file: dest=/etc/ssh/authorized_keys
           state=directory owner=root group=root mode=0755
 
+- name: 'create a group for users without ssh'
+  group: name=nossh gid=111 state=present
+
 - name: 'unlock central authorized_keys files for writing'
   shell: chattr -i /etc/ssh/authorized_keys/*
   ignore_errors: yes
