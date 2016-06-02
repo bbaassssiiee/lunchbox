@@ -1,0 +1,6 @@
+---
+
+- name: 'fix auditd config for dockpack/centos6 image'
+  lineinfile: dest=/etc/audit/auditd.conf
+              regexp="^admin_space_left_action"
+              line="admin_space_left_action = SINGLE"
