@@ -33,3 +33,4 @@
   file: dest=/etc/profile.d/jre.sh mode=0755
   tags:
   - java8
+
