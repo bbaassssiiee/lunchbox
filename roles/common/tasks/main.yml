@@ -12,17 +12,17 @@
    - screen
    - unzip
   tags:
-    - harden
+    - common
     
 - name: 'system security patches and updates must be installed and up-to-date'
   yum: name=* state=latest
   tags:
-    - harden
+    - common
 
 - name: 'ensure auditing at boot time'
   command: sed -i '/^\tkernel/ s/$/ audit=1/' /etc/grub.conf
   tags:
-    - harden
+    - common
 
 # EPEL Yum repository adds Extra Packages for Enterprise Linux
 - name: 'add EPEL yum repo'
@@ -32,12 +32,12 @@
 - name: 'set hostname'
   hostname: name={{ inventory_hostname }}
   tags:
-    - hosts
+    - common
 
 - name: 'build hosts file'
   template: src=hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
   tags:
-    - hosts
+    - common
      
 - name: 'create banner for login'
   copy: 
@@ -51,4 +51,4 @@
     - issue
     - issue.net
   tags:
-    - harden
+    - common

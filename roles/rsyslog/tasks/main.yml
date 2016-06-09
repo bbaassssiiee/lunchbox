@@ -1,13 +1,17 @@
 ---
-- name: 'make sure log_host is defined'
+- name: 'ensure log_host is defined'
   assert:
     that: "'{{ log_host }}' is defined"
+  tags:
+    - rsyslog
 
-- name: 'make sure log_host_ip is defined'
+- name: 'ensure log_host_ip is defined'
   assert:
     that: "'{{ log_host_ip }}' is defined"
+  tags:
+    - rsyslog
 
-- name: 'make sure package rsyslog is installed'
+- name: 'ensure package rsyslog is installed'
   yum: name=rsyslog state=installed
   notify: remove sysklogd
   tags:

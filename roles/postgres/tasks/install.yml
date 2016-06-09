@@ -2,7 +2,7 @@
 
 - name: 'install the postgres yum repo'
   become: yes
-  yum: name={{postgres_repo}} state=present
+  yum: name={{ postgres_repo }} state=present
   when: ansible_os_family == "RedHat"
   tags:
     - install

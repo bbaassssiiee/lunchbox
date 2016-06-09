@@ -1,7 +1,10 @@
 ---
-- name: 'make sure pg_subnet is defined in group_vars'
+- name: 'ensure pg_subnet is defined in group_vars'
   assert:
     that: "'{{ pg_subnet }}' is defined"
+  tags:
+    - postgres
+    - install
     
 - name: 'init postgresql database'
   command: service postgresql-9.4 initdb creates=/var/lib/pgsql/9.3/data/postgresql.conf
@@ -10,6 +13,7 @@
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
   tags:
+    - postgres
     - install
 
 - name: 'ensure postgresql is running automatically at boot'
@@ -17,6 +21,7 @@
   become: yes
   when: ansible_os_family == "RedHat"
   tags:
+    - postgres
     - install
 
 - name: 'configure pg_hba.conf'
@@ -27,6 +32,7 @@
     - start postgresql-9.4
   when: ansible_os_family == "RedHat"
   tags:
+    - postgres
     - config
 
 - name: 'unset ip to listen on to ipv4 localhost'
@@ -34,6 +40,7 @@
   lineinfile: dest=/var/lib/pgsql/9.4/data/postgresql.conf insertbefore='^#listen_addresses'
               line="listen_addresses = '127.0.0.1'" state=absent
   tags:
+    - postgres
     - config
 
 - name: 'set listen on on ipv4 addresses'
@@ -42,6 +49,7 @@
               line="listen_addresses = '*'" state=present
   notify:
     - start postgresql-9.4
-    # that is define in ../handlers/main.yml
+    # that is defined in ../handlers/main.yml
   tags:
+    - postgres
     - config

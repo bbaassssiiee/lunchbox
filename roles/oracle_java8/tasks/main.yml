@@ -1,9 +1,10 @@
 ---
+
 - name: 'clean yum cache'
   become: yes
   command: yum clean all
   tags:
-    - java8
+    - oracle_java8
     
 - name: 'get Oracle Java 8 with wget'
   become: yes
@@ -12,7 +13,7 @@
   args:
     creates: jdk-8u91-linux-x64.rpm
   tags:
-    - java8
+    - oracle_java8
 
 - name: 'install Oracle Java 8 with yum'
   become: yes
@@ -20,17 +21,17 @@
   register: yuminstall
   changed_when: "'Complete' in yuminstall.stdout"
   tags:
-    - java8
+    - oracle_java8
 
 - name: 'fix JAVA_HOME'
   become: yes
   shell: echo export JAVA_HOME=/usr/java/jdk1.8.0_91 > /etc/profile.d/jre.sh
   tags:
-    - java8
+    - oracle_java8
     
 - name: 'fix permissions'
   become: yes
   file: dest=/etc/profile.d/jre.sh mode=0755
   tags:
-  - java8
+    - oracle_java8
 

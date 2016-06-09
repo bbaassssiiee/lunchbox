@@ -1,39 +1,59 @@
 ---
 
-- name: "make sure ca-certificates is latest"
+- name: 'ensure ca-certificates is latest'
   yum: name=ca-certificates state=latest
   when: ansible_os_family == "RedHat"
+  tags:
+    - reverse_proxy
 
 - name: 'copy RootCA.crt to webserver'
   copy: src=pki/RootCA.cer dest=/var/www/html/RootCA.cer owner=apache group=apache mode=0644
+  tags:
+    - reverse_proxy
 
 - name: 'generate Root CA key'
   command: "openssl genrsa -out /etc/pki/tls/private/{{inventory_hostname}}.key 1024 creates=/etc/pki/tls/private/{{inventory_hostname}}.key"
+  tags:
+    - reverse_proxy
 
 - name: 'generate certificate signing request'
   command: "openssl req -new -key /etc/pki/tls/private/{{inventory_hostname}}.key -out {{inventory_hostname}}.csr -subj '/C=NL/ST=NH/L=Amsterdam/O=AnsibleBenelux/CN={{inventory_hostname}}'"
+  tags:
+    - reverse_proxy
 
 - name: 'fetch certficate signing request'
   fetch: src={{inventory_hostname}}.csr dest=pki/{{inventory_hostname}}.csr flat=yes
+  tags:
+    - reverse_proxy
 
 - name: 'CA-sign webserver key in a way to avoid https://github.com/mitchellh/vagrant/issues/2646'
   become: no
   local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/{{inventory_hostname}}.csr -CA pki/RootCA.pem -CAkey pki/RootCA.key -CAcreateserial -out pki/{{inventory_hostname}}.crt -days 180'
+  tags:
+    - reverse_proxy
 
 - name: 'copy signed certificate to webserver'
   copy: src=pki/{{inventory_hostname}}.crt dest=/etc/pki/tls/certs/{{inventory_hostname}}.crt
   notify:
     - restart httpd
+  tags:
+    - reverse_proxy
 
-- name: "copy RootCA root cert"
+- name: 'copy RootCA root cert'
   command: cp /var/www/html/RootCA.cer /etc/pki/ca-trust/source/anchors
   when: ansible_os_family == "RedHat"
+  tags:
+    - reverse_proxy
 
-- name: "enable ca-trust"
+- name: 'enable ca-trust'
   command: update-ca-trust force-enable
   when: ansible_os_family == "RedHat"
+  tags:
+    - reverse_proxy
 
-- name: "import RootCA root cert into Linux ca-trust"
+- name: 'import RootCA root cert into Linux ca-trust'
   command: update-ca-trust extract
   when: ansible_os_family == "RedHat"
-
+  tags:
+    - reverse_proxy
+  

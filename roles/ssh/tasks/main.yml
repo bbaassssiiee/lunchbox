@@ -9,23 +9,23 @@
 #    - ssh_users
 #         vagrant
 
-- name: 'make sure ansible_user is defined in group_vars'
+- name: 'ensure ansible_user is defined in group_vars'
   assert:
     that: "'{{ ansible_user }}' is defined"
   tags:
-    - sshd
+    - ssh
 
-- name: 'make sure package openssh-clients is latest'
+- name: 'ensure package openssh-clients is latest'
   yum: name=openssh-clients state=latest
   tags:
-    - sshd
+    - ssh
 
-- name: 'make sure package openssh-server is latest'
+- name: 'ensure package openssh-server is latest'
   yum: name=openssh-server state=latest
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
 - name: 'create central directory for authorized_keys'
   file: dest=/etc/ssh/authorized_keys
@@ -33,20 +33,20 @@
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
 - name: 'create a group for users without ssh'
   group: name=nossh gid=111 state=present
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
 - name: 'unlock central authorized_keys files for writing'
   shell: chattr -i /etc/ssh/authorized_keys/*
   ignore_errors: yes
   tags:
-    - sshd
+    - ssh
 
 - name: 'install all authorized keys from the directory pki/ansible_user'
   authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
@@ -59,19 +59,19 @@
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
-- name: 'make sure all ssh_users have a user'
+- name: 'ensure all ssh_users have a user'
   user: name={{ item|basename }} shell=/bin/bash state=present
   with_fileglob:
     - ../../../pki/ssh_users/*
   tags:
-    - sshd
+    - ssh
 
-- name: 'make sure no user has authorized_keys in their homedir'
+- name: 'ensure no user has authorized_keys in their homedir'
   shell: rm -f /home/*/.ssh/authorized_keys*
   tags:
-    - sshd
+    - ssh
 
 - name: 'install all authorized keys from the directory pki/ssh_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
@@ -84,14 +84,14 @@
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
 - name: 'create sftp group for chrooted users'
   group: name=sftp gid=2003 state=present
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
 - name: 'create the sftp user in the sftp group'
   user: name={{ item|basename }} group=sftp
@@ -101,22 +101,22 @@
   with_fileglob:
     - ../../../pki/sftp_users/*
   tags:
-    - sshd
+    - ssh
 
 - name: 'set permissions on homedir'
   file: dest=/home/{{ item|basename }} owner=root group=root mode=755
   with_fileglob:
     - ../../../pki/sftp_users/*
   tags:
-    - sshd
-
-- name: 'make sure dir for files exists'
+    - ssh
+    
+- name: 'ensure dir for files exists'
   file: dest=/home/{{ item|basename }}/files state=directory
         owner={{ item|basename }} group=users mode=2775
   with_fileglob:
     - ../../../pki/sftp_users/*
   tags:
-    - sshd
+    - ssh
 
 - name: 'install all authorized keys from the directory pki/sftp_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
@@ -127,38 +127,38 @@
   with_fileglob:
     - ../../../pki/sftp_users/*
   tags:
-    - sshd
+    - ssh
 
-- name: 'make sure all non_users are removed'
+- name: 'ensure all non_users are removed'
   user: name={{ item|basename }} groups= state=absent remove=yes
   with_fileglob:
     - ../../../pki/non_users/*
   tags:
-    - sshd
+    - ssh
 
-- name: 'make sure all keys of non_users are removed'
+- name: 'ensure all keys of non_users are removed'
   file: dest=/etc/ssh/authorized_keys/{{ item|basename }} state=absent
   with_fileglob:
     - ../../../pki/non_users/*
   tags:
-    - sshd
+    - ssh
 
 - name: 'lock central authorized_keys files for writing'
   shell: chattr +i /etc/ssh/authorized_keys/*
   tags:
-    - sshd
+    - ssh
 
 - name: 'build and write /etc/ssh/ssh_config file'
   template: src=ssh_config.j2 dest=/etc/ssh/ssh_config owner=root group=root mode=0644
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
 - name: 'build and write /etc/ssh/sshd_config file'
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0644
   notify:
     - restart sshd
   tags:
-    - sshd
+    - ssh
 
