@@ -1,4 +1,6 @@
 ## This lists roles that the playbooks depend on
 
 - src: hostclick.tomcat
-  path: ./roles/
+
+- src: https://github.com/bbaassssiiee/RHEL6-STIG.git
+  version: devel
