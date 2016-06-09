@@ -11,6 +11,7 @@
 
   roles:
     - common
+    - ntp
     - pam
     - ssh
     - postgres

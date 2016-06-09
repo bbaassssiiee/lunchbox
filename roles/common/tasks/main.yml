@@ -14,15 +14,11 @@
   tags:
     - harden
     
-- name: 'start synchronizing the system clock'
-  service: name=ntpd state=started enabled=yes
-  tags:
-    - harden
-    
 - name: 'system security patches and updates must be installed and up-to-date'
   yum: name=* state=latest
   tags:
     - harden
+
 - name: 'ensure auditing at boot time'
   command: sed -i '/^\tkernel/ s/$/ audit=1/' /etc/grub.conf
   tags:
