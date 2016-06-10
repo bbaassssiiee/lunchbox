@@ -11,10 +11,7 @@ rhel-stig-report.html
 pki
 
 # Re-use Galaxy roles: use ansible/requirements.yml
-roles/RHEL6-STIG/
-roles/geerlingguy.java/
-roles/hostclick.tomcat/
-roles/bbaassssiiee.commoncentos
+galaxy_roles
 
 # Packer builds
 output-virtualbox-iso
