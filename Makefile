@@ -20,6 +20,7 @@ clean:
 	
 realclean: clean
 	rm -f U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark.zip
+	rm -rf ansible-tmp-*
 	
 audit: clean
 	./audit.yml
