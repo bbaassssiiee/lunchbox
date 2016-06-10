@@ -1,0 +1,8 @@
+#!/usr/bin/env ansible-playbook
+# master playbook
+- name: common stuff for all hosts
+  hosts: all:!local
+  remote_user: "{{ ansible_user }}"
+
+- include: dbservers.yml
+- include: webservers.yml
