@@ -1,6 +1,6 @@
 ---
 
-- name: 'The system must disable accounts after excessive login failures within a 15-minute interval.'
+- name: 'Disable accounts after three login failures in a 15-minute interval.'
   pam:
     service: "{{ item }}"
     type: auth
