@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
 # master playbook
-- name: common stuff for all hosts
+- name: 'site.yml'
   hosts: all:!local
   remote_user: "{{ ansible_user }}"
 

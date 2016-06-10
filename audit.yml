@@ -1,26 +1,38 @@
 #!/usr/bin/env ansible-playbook
 
-- hosts: webservers
-  gather_facts: False
+- name: 'audit.yml'
+  hosts: webservers
+  gather_facts: True
   become: yes
 
   vars:
   - benchmark: 'U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark.zip'
   - stig_baseurl: 'http://iasecontent.disa.mil/stigs/zip/July2015'
 
+  roles:
+    - RHEL6-STIG
+
   tasks:
 
   - name: 'add packages for security audit'
     yum: name=openscap-utils state=present
-
+    tags:
+      - audit
+      
   - name: 'download from http://iase.disa.mil/'
     get_url: url={{stig_baseurl}}/{{benchmark}} dest=/vagrant/{{benchmark}}
+    tags:
+      - audit
 
   - name: 'unzip Security Content Automation Protocol Content'
     command: unzip -o /vagrant/{{benchmark}}
+    tags:
+      - audit
 
   - name: 'make this benchmark work for Centos instead of RHEL'
     shell: "perl -pi -e 's/redhat:enterprise_linux/centos:centos/;' *.xml"
+    tags:
+      - audit
 
   - name: 'run the SCAP tool and create rhel-stig-report.html'
     command: "oscap xccdf eval \
@@ -31,6 +43,12 @@
       U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark-xccdf.xml"
     no_log: yes
     ignore_errors: yes
-
+    tags:
+      - audit
+      
   - name: 'Now open audit report rhel-stig-report.html'
-    command: echo 'open rhel-stig-report.html'
+    local_action: command open rhel-stig-report.html
+    become: no
+    tags:
+      - audit
+      

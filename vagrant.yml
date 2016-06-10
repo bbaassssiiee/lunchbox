@@ -1,6 +1,6 @@
 #!/usr/bin/env ansible-playbook
-# master playbook
-- name: common stuff for all hosts
+# master playbook for developers
+- name: 'vagrant.yml'
   hosts: all:!local
   remote_user: "{{ ansible_user }}"
 

@@ -1,6 +1,6 @@
 ---
 # Usage: ansible-playbook -v -i inventory.ini -l local root_ca.yml
-- name: "install.yml"
+- name: "root_ca.yml"
   hosts: localhost
   connection: local
   gather_facts: False

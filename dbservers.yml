@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 # playbook for dbserver tier
 
-- name: database server setup
+- name: 'dbservers.yml'
   hosts: dbservers
   become: yes
   gather_facts: True

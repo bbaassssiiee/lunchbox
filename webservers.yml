@@ -1,7 +1,7 @@
 #!/usr/bin/env ansible-playbook
 # playbook for webserver tier
 
-- name: webapp server setup
+- name: 'webservers.yml'
   hosts: webservers
   become: yes
 
@@ -18,7 +18,6 @@
     - reverse_proxy
     - oracle_java8
     - hostclick.tomcat
-
 
   post_tasks:
     - include: webservers/post_tasks.yml
