@@ -1,3 +1,5 @@
+---
+
 # ntp
 ntp_servers:
   # use nearby ntp servers if available
