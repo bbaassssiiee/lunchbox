@@ -6,13 +6,16 @@
       - verify
 
   - name: 'verify tcp listening socket for TomCat'
-    wait_for: port=8080 timeout=5
+    wait_for: port=8080 
+              timeout=10
     tags:
       - verify
 
   - name: 'verify firewall and reverse proxy'
     become: no
-    local_action: uri url=http://web/examples/ status_code=200
+    local_action: uri url=http://web/examples/ 
+                      status_code=200
+                      timeout=30
                       validate_certs=no
     tags:
       - verify
