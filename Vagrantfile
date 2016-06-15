@@ -17,8 +17,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.boot_timeout = 900
   config.vm.graceful_halt_timeout=100
-
-  config.vm.synced_folder "./", "/vagrant", :nfs => true, :mount_options => ['vers=3','noatime','actimeo=2', 'tcp', 'fsc']
+  config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+  #config.vm.synced_folder "./", "/vagrant", :nfs => true, :mount_options => ['vers=3','noatime','actimeo=2', 'tcp', 'fsc']
 
   config.vm.provision "ansible" do |ansible|
     ansible.inventory_path = "vagrant.ini"
