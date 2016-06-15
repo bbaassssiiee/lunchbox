@@ -21,5 +21,5 @@
            follow_redirects=all
 
     - name: 're-import roles from Galaxy'
-      command: ansible-galaxy install --force --role-file requirements.yml
+      command: ansible-galaxy install --force -r roles/requirements.yml
  
