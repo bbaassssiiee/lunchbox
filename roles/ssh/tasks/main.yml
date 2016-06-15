@@ -29,7 +29,10 @@
 
 - name: 'create central directory for authorized_keys'
   file: dest=/etc/ssh/authorized_keys
-          state=directory owner=root group=root mode=0755
+        state=directory 
+        owner=root 
+        group=root 
+        mode=0755
   notify:
     - restart sshd
   tags:
@@ -65,11 +68,6 @@
   user: name={{ item|basename }} shell=/bin/bash state=present
   with_fileglob:
     - ../../../pki/ssh_users/*
-  tags:
-    - ssh
-
-- name: 'ensure no user has authorized_keys in their homedir'
-  shell: rm -f /home/*/.ssh/authorized_keys*
   tags:
     - ssh
 
@@ -157,8 +155,15 @@
 
 - name: 'build and write /etc/ssh/sshd_config file'
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0644
-  notify:
-    - restart sshd
   tags:
     - ssh
 
+- name: 'restart sshd'
+  command: service sshd restart
+  tags:
+    - ssh
+
+- name: 'ensure no user has authorized_keys in their homedir'
+  shell: rm -f /home/*/.ssh/authorized_keys*
+  tags:
+    - ssh
