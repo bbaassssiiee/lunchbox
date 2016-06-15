@@ -14,6 +14,14 @@
   tags:
     - common
     
+- name: 'disable pgdg94 repo'
+  command: yum-config-manager --disable pgdg94
+  ignore_errors: yes
+
+- name: 'yum clean all'
+  command: yum clean all
+  ignore_errors: yes
+
 - name: 'system security patches and updates must be installed and up-to-date'
   yum: name=* state=latest
   tags:
