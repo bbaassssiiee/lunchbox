@@ -17,11 +17,12 @@ IgnoreRhosts yes
 IgnoreUserKnownHosts yes
 KeepAlive yes
 KerberosAuthentication no
-KexAlgorithms diffie-hellman-group-exchange-sha256
+KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1
+
 KeyRegenerationInterval 3600
 LoginGraceTime 2m
 LogLevel VERBOSE
-MACs hmac-sha2-512,hmac-sha2-256
+MACs hmac-sha2-512,hmac-sha2-256,hmac-ripemd160,hmac-sha1
 MaxAuthTries 5
 PasswordAuthentication no
 PermitEmptyPasswords no
