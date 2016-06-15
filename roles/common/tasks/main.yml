@@ -16,11 +16,16 @@
     
 - name: 'disable pgdg94 repo'
   command: yum-config-manager --disable pgdg94
+  when: inventory_hostname in groups.dbservers
   ignore_errors: yes
+  tags:
+    - common
 
 - name: 'yum clean all'
   command: yum clean all
   ignore_errors: yes
+  tags:
+    - common
 
 - name: 'system security patches and updates must be installed and up-to-date'
   yum: name=* state=latest
@@ -36,6 +41,8 @@
 - name: 'add EPEL yum repo'
   yum: name=epel-release state=present
   when: internet is defined
+  tags:
+    - common
 
 - name: 'set hostname'
   hostname: name={{ inventory_hostname }}
@@ -60,3 +67,4 @@
     - issue.net
   tags:
     - common
+
