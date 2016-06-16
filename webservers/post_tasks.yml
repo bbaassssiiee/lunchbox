@@ -13,7 +13,7 @@
 
   - name: 'verify firewall and reverse proxy'
     become: no
-    local_action: uri url=http://web/examples/ 
+    local_action: uri url=http://192.168.20.20/examples/ 
                       status_code=200
                       timeout=30
                       validate_certs=no
