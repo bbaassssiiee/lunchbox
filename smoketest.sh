@@ -1,1 +1,1 @@
-ansible-playbook site.yml --tags=verify --ask-vault-pass
+ansible-playbook site.yml --tags=test --ask-vault-pass

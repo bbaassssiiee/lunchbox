@@ -2,7 +2,7 @@
   - name: 'verify tcp listening socket for PostgreSQL'
     wait_for: port=5432 timeout=5
     tags:
-      - verify
+      - test
 
   - name: 'create database'
     postgresql_db: name=database template='template0' encoding='UTF-8'

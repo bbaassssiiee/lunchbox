@@ -3,13 +3,13 @@
     register: java
     changed_when: no
     tags:
-      - verify
+      - test
 
   - name: 'verify tcp listening socket for TomCat'
     wait_for: port=8080 
               timeout=10
     tags:
-      - verify
+      - test
 
   - name: 'verify firewall and reverse proxy'
     become: no
@@ -18,4 +18,4 @@
                       timeout=30
                       validate_certs=no
     tags:
-      - verify
+      - test
