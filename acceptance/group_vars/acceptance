@@ -1,8 +1,0 @@
-ansible_user: vagrant
-
-make_audit_report: true
-
-# Enable or disable remediation for each category
-rhel6stig_cat1: false
-rhel6stig_cat2: false
-rhel6stig_cat3: false
