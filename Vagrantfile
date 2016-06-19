@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.inventory_path = "inventory/hosts"
-    ansible.playbook = "sit.yml"
+    ansible.playbook = "site.yml"
     ansible.raw_arguments = "--ask-vault-pass"
     ansible.verbose = "vv"
     ansible.host_key_checking = "false"
