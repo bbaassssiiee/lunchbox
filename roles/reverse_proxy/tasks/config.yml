@@ -37,6 +37,7 @@
     
 - name: 'enable network connect for webserver'
   seboolean: name=httpd_can_network_connect persistent=yes state=yes
+  ignore_errors: yes
   tags:
     - reverse_proxy
     

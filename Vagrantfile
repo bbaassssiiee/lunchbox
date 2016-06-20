@@ -21,8 +21,8 @@ Vagrant.configure("2") do |config|
   #config.vm.synced_folder "./", "/vagrant", :nfs => true, :mount_options => ['vers=3','noatime','actimeo=2', 'tcp', 'fsc']
 
   config.vm.provision "ansible" do |ansible|
-    ansible.inventory_path = "vagrant.ini"
-    ansible.playbook = "vagrant.yml"
+    ansible.inventory_path = "inventory/hosts"
+    ansible.playbook = "site.yml"
     ansible.raw_arguments = "--ask-vault-pass"
     ansible.verbose = "vv"
     ansible.host_key_checking = "false"
