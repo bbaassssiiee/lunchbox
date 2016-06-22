@@ -1,5 +1,7 @@
 ansible_user: vagrant
 
+dba_password: 1Secret_
+
 make_audit_report: true
 
 # Enable or disable remediation for each category
