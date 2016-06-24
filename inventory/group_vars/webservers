@@ -1,19 +1,8 @@
 ---
-# here we assign variables to the group [webservers] defined in inventory.ini
+# here we assign variables to the group [webservers] defined in inventory
 java_packages:
   - java-1.8.0-openjdk
 
-tomcat_apps:
-   - app_name: tomcat
-     admin_username: admin
-     admin_password: password
-     user_id: 8080
-     server_port: 8006
-     http_port: 8080
-     https_port: 8443
-     ajp_port: 8009
-     xms: 512M
-     xmx: 512M
 
 rhel6stig_cat1: true
 rhel6stig_cat2: true
