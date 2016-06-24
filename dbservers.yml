@@ -7,7 +7,7 @@
   gather_facts: True
 
   vars_files:
-    - include: dbservers/secrets.yml
+    - dbservers/secrets.yml
 
   pre_tasks:
     - include: dbservers/pre_tasks.yml
