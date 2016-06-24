@@ -4,4 +4,3 @@
 # dbservers  - stuff for the database only
 # vagrant    - environment specific variables
 # webservers - stuff for the webserver only
-# vault      - secrets
