@@ -13,4 +13,4 @@
     postgresql_user: db=database name='dba' password='{{dba_password}}'
     tags:
       - config
-
+      - secret

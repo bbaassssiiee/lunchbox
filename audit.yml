@@ -51,4 +51,12 @@
       - audit
       - fetch
 
+  - name: 'copy report to webserver'
+    copy: src=/tmp/rhel-stig-report.html 
+          dest=/var/www/html/rhel-stig-report.htm
+          mode=0644
+    tags:
+      - audit
+      - demo
+
       

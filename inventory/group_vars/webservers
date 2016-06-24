@@ -1,7 +1,8 @@
 ---
-# here we assign variables to the group [webservers] defined in inventory.ini
+# here we assign variables to the group [webservers] defined in inventory
 java_packages:
   - java-1.8.0-openjdk
+
 
 rhel6stig_cat1: true
 rhel6stig_cat2: true

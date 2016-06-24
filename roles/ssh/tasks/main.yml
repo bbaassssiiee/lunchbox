@@ -1,7 +1,7 @@
 ---
 # Manage SSH for users with different trust level.
 # this role assumes a folder structure with ssh_pub_keys named after usernames.
-# - pki
+# - files
 #    - non_users
 #         hank
 #    - sftp_users
@@ -51,14 +51,14 @@
   tags:
     - ssh
 
-- name: 'install all authorized keys from the directory pki/ansible_user'
+- name: 'install all authorized keys from the directory ansible_user'
   authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
                   key="{{ lookup('file', item) }}"
                   user={{ ansible_user }}
                   manage_dir=no
                   state=present
   with_fileglob:
-    - ../../../pki/ansible_user/*
+    - ansible_user/*
   notify:
     - restart sshd
   tags:
@@ -67,18 +67,18 @@
 - name: 'ensure all ssh_users have a user'
   user: name={{ item|basename }} shell=/bin/bash state=present
   with_fileglob:
-    - ../../../pki/ssh_users/*
+    - ssh_users/*
   tags:
     - ssh
 
-- name: 'install all authorized keys from the directory pki/ssh_users'
+- name: 'install all authorized keys from the directory ssh_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
                   key="{{ lookup('file', item) }}"
                   user={{ item|basename }}
                   manage_dir=no
                   state=present
   with_fileglob:
-    - ../../../pki/ssh_users/*
+    - ssh_users/*
   notify:
     - restart sshd
   tags:
@@ -97,14 +97,14 @@
         home=/home/{{ item|basename }} createhome=yes
         state=present
   with_fileglob:
-    - ../../../pki/sftp_users/*
+    - sftp_users/*
   tags:
     - ssh
 
 - name: 'set permissions on homedir'
   file: dest=/home/{{ item|basename }} owner=root group=root mode=755
   with_fileglob:
-    - ../../../pki/sftp_users/*
+    - sftp_users/*
   tags:
     - ssh
     
@@ -112,32 +112,32 @@
   file: dest=/home/{{ item|basename }}/files state=directory
         owner={{ item|basename }} group=users mode=2775
   with_fileglob:
-    - ../../../pki/sftp_users/*
+    - sftp_users/*
   tags:
     - ssh
 
-- name: 'install all authorized keys from the directory pki/sftp_users'
+- name: 'install all authorized keys from the directory sftp_users'
   authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
                   key="{{ lookup('file', item) }}"
                   user={{ item|basename }}
                   manage_dir=no
                   state=present
   with_fileglob:
-    - ../../../pki/sftp_users/*
+    - sftp_users/*
   tags:
     - ssh
 
 - name: 'ensure all non_users are removed'
   user: name={{ item|basename }} groups= state=absent remove=yes
   with_fileglob:
-    - ../../../pki/non_users/*
+    - non_users/*
   tags:
     - ssh
 
 - name: 'ensure all keys of non_users are removed'
   file: dest=/etc/ssh/authorized_keys/{{ item|basename }} state=absent
   with_fileglob:
-    - ../../../pki/non_users/*
+    - non_users/*
   tags:
     - ssh
 
