@@ -1,0 +1,15 @@
+#!/usr/bin/env ansible-playbook 
+- name: 'hardening.yml'
+  hosts: all
+  gather_facts: True
+  become: yes
+
+  vars:
+  - rhel6stig_cat1: true
+  - rhel6stig_cat2: false
+  - rhel6stig_cat3: false
+  - rhel6stig_fullauto: true
+
+  roles:
+    - RHEL6-STIG
+
