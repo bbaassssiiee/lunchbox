@@ -11,12 +11,13 @@ A good practice in modern development is to create an environment locally, that 
 # TODO 2. Then copy the file 'Vagrantfile' in this directory to the 'project' directory.
 
 # TODO 3. cd to the 'project' directory using the command shell/Terminal
-
 # TYPE:   vagrant up
 
 This will start the virtual machines used in this workshop on your laptop.
 
-# TALK: Offer help to members in your group.
+# TALK: Offer help to members in your group, you all need a good setup.
+
+# TIP: The project folder "transponds" to the Linux machine.
 
 # INFO: http://docs.vagrantup.com/v2/getting-started/index.html
 

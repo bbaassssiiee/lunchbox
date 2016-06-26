@@ -1,4 +1,4 @@
----
+#!/usr/bin/env ansible-playbook
 
 - name: 'dbservers.yml'
   hosts: dbservers
@@ -12,7 +12,7 @@
     - include: dbservers/pre_tasks.yml
 
   roles:
-    - sfromm.postgresql
+    - el_postgres_role
 
   tasks: []
 

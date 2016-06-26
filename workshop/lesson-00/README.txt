@@ -10,6 +10,8 @@ Prerequisites for this workshop.
 3. Git
 
 # TODO 1. Open the file install.yml in the lesson-00 directory for instructions.
+# NOTE: Apart from the README.txt files, the files here have Unix line-endings.
+# TIP: On Windows you can use Wordpad.exe to open the files.
 
 GOTO: ../lesson-01
 #
