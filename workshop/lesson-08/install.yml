@@ -1,0 +1,22 @@
+#!/usr/bin/env ansible-playbook
+
+- name: 'install.yml'          # quote names for syntax highlighting
+  hosts: localhost             # scope the play appropriately
+  connection: local            # 
+  gather_facts: False          # booleans: /^(y|yes|n|no|true|false|on|off)$/i
+
+  vars:                        
+    - url: "https://galaxy.ansible.com"  
+
+  tasks:                       # list tasks, but consider using a role
+    - name: 'check network'    # format parameters for small terminal size
+      uri: url={{ url }}     
+           method=HEAD
+           return_content=no
+           status_code=200
+           timeout=60
+           follow_redirects=all
+
+    - name: 're-import roles from Galaxy'
+      command: ansible-galaxy install --force -r roles/requirements.yml
+ 

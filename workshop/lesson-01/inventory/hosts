@@ -1,0 +1,18 @@
+# inventory file for servers. hosts are listed under each [groupname].
+
+[local]
+127.0.0.1 ansible_ssh_host=127.0.0.1 ansible_connection=local ansible_python_interpreter=python2
+
+[vagrant:children]
+control
+dbservers
+webservers
+
+[dbservers]
+sql ansible_ssh_host=192.168.20.22
+
+[webservers]
+web ansible_ssh_host=192.168.20.20
+
+[control]
+control ansible_ssh_host=192.168.20.30

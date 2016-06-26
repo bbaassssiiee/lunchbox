@@ -1,0 +1,21 @@
+---
+
+- name: 'dbservers.yml'
+  hosts: dbservers
+  become: yes
+  gather_facts: True
+
+  vars_files:
+    - dbservers/secrets.yml
+    
+  pre_tasks:
+    - include: dbservers/pre_tasks.yml
+
+  roles:
+    - sfromm.postgresql
+
+  tasks: []
+
+  post_tasks:
+    - include: dbservers/post_tasks.yml
+

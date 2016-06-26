@@ -1,0 +1,9 @@
+#!/usr/bin/env ansible-playbook
+# master playbook
+- name: 'site.yml'
+  hosts: all:!local
+  remote_user: "{{ ansible_user }}"
+
+- include: webservers.yml
+- include: dbservers.yml
+
