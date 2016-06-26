@@ -16,13 +16,11 @@ In Ansible you can write a list of tasks. We start by naming our list, and we al
   - name: start httpd
   	action: service name=httpd state=started
 
-
-# TIP: Add a blank line between tasks.
-
-# TALK: Remember that an action is a declaration state? How does it achieve this? 
-
 # HINT: Tasks are part of a play.
 # HINT: Plays combine in a playbook
+# HINT: Handlers are tasks that can be notified.
+
+# TALK: Remember that an action is a declaration state? How does it achieve this? 
 
 # TODO 1. Copy the playbook file webservers.yml to the project directory.
 # TODO 2. Play it from the control host
@@ -31,7 +29,6 @@ In Ansible you can write a list of tasks. We start by naming our list, and we al
 
 # TODO 3. Verify the web page at http://192.168.20.20/
 
-# TIP: In short-hand notation, you can drop action: if you add ':' to the module.
 
 GOTO: ../lesson-07/README.txt
 #

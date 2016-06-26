@@ -17,6 +17,17 @@
            timeout=60
            follow_redirects=all
 
-    - name: 're-import roles from Galaxy'
-      command: ansible-galaxy install --force -r roles/requirements.yml
+    - name: 'import roles from Galaxy'
+      command: ansible-galaxy install -r roles/requirements.yml
  
+    - name: 'update Ansible'
+      become: yes
+      yum: name=ansible state=latest
+
+    - name: 'ensure permissions on ssh private key file'
+      file: name=/home/vagrant/project/vagrant.rsa state=file mode=0600
+
+    - name: 'ensure permissions on directory'
+      file: name=/home/vagrant/project state=directory mode=0700
+
+    

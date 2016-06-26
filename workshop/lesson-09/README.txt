@@ -32,7 +32,7 @@ Your database playbook at the highest level will show the plays for each group o
 SLIDES: There are slides explaining this topic.
 
 TODO 1. Copy everything from this folder to the project folder.
-TODO 2. login to 'control', cd to 'project' and run 'site.yml'
+TODO 2. login to 'control', cd to 'project' and run 'install.yml'
 
 HINT: Galaxy already has thousands of roles.
 

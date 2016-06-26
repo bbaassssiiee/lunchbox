@@ -26,17 +26,18 @@ web
 TIPS:
 * Start your model with the inventory
 * Use .ini files for static inventories.
-* Use separate inventories for stages like 'vagrant' and 'production'. Use 'group_vars' to manage differences.
-* Use the [group:children] construct for grouping, and list hostnames ones.
-* Test things first in a stage environment before running them in 'production'.
+* Use separate inventories for stages like 'vagrant' and 'production'. 
+* Use the [group:children] construct for grouping, and list hostnames once.
+* Test things first in a 'vagrant' environment before running them in 'production'.
 * Target an environment with the -i flag.
-* Executable inventory file must emit JSON.
 * If you have a system maintaining a list of systems in your infrastructure, use it for your dynamic inventory.
+* Dynamic inventory files are executables, and must emit JSON.
 
 
 # HINT: Ansible Tower can keep inventories and credentials securely.
 
 To import an existing static inventory and the accompanying host and group vars into Tower, your inventory should be in a structure that looks similar to the following (don't use subdirs):
+
 inventory/
     group_vars
         mygroup
