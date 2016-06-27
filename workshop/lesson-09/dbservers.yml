@@ -12,7 +12,7 @@
     - include: dbservers/pre_tasks.yml
 
   roles:
-    - el_postgres_role
+    - bbassssiiee.el_postgres_role
 
   tasks: []
 
