@@ -1,9 +1,0 @@
----
-#  tasks file can include smaller files if warranted
-
-# Install as root
-- include: install.yml
-
-# Run configuration as postgres
-- include: config.yml
-

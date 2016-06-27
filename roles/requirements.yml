@@ -3,5 +3,7 @@
 
 - src: hostclick.tomcat
 
+- src: https://github.com/bbaassssiiee/el_postgres_role
+
 - src: https://github.com/bbaassssiiee/RHEL6-STIG.git
   version: devel

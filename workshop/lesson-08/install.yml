@@ -17,10 +17,10 @@
            timeout=60
            follow_redirects=all
 
-    - name: 'import roles from Galaxy'
+    - name: 'import roles from Galaxy and/or Git'
       command: ansible-galaxy install -r roles/requirements.yml
  
-    - name: 'update Ansible'
+    - name: 'update Ansible rpm'
       become: yes
       yum: name=ansible state=latest
 

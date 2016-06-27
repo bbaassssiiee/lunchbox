@@ -2,15 +2,12 @@
 U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark.zip
 results.xml
 rhel-stig-report.html
-
+workshop/project
 
 # rm -rf .vagrant to release your burdens.
 .vagrant
 
-# Store your secrets here, not on Github
-pki
-
-# Re-use Galaxy roles: use ansible/requirements.yml
+# Re-use Galaxy roles: use roles/requirements.yml
 galaxy_roles
 
 # Packer builds
