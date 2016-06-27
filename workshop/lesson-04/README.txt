@@ -25,6 +25,4 @@ Vagrant has a liberal way to deal with key pairs, and that makes projects sharab
   chmod 700 . && chmod 600 vagrant.rsa
 
 # TALK: The default SSH setup can be improved. How?
-
-GOTO: ../lesson-05/README.txt
-#
+# DEMO: There is a demo about SSH, ask for it.

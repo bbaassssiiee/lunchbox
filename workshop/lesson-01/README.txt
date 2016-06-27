@@ -49,5 +49,3 @@ The import can be done with this command below /var/lib/awx/projects/:
 
     tower-manage inventory_import --source=inventory --inventory-name="inventory"
 
-GOTO: ../lesson-02/README.txt
-#

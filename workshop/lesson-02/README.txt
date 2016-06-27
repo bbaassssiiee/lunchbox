@@ -21,5 +21,3 @@ This will start the virtual machines used in this workshop on your laptop.
 
 # INFO: http://docs.vagrantup.com/v2/getting-started/index.html
 
-GOTO: ../lesson-03/README.txt
-#

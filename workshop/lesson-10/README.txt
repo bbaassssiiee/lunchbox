@@ -3,7 +3,7 @@
 # MOTTO: Magic happens when you put your files in the right locations.
 
 # TODO 1. Login to 'control', cd to 'project' and run 'site.yml'
-# TODO 2. The example role was not made for RHEL6, fix everything.
+# TODO 2. Focus on one important aspect to improve the setup. Write a plan.
 
 # TIP: Follow the recommended directory layout
 
@@ -36,4 +36,6 @@ roles/                 # in-house roles
             script.sh  # -- script for use with the script module
 
 
-# TALK: Discuss how to implement a web server with a database.
+# TALK: Discuss how to implement an improvement for a web server with a database.
+
+# WORK: You can continue working for an hour. After that, presentations. 

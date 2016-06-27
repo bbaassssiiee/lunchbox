@@ -4,9 +4,8 @@
 Use the file 'ansible.cfg' to set parameters that affect running ansible, and ansible-playbook. This file can be present in the project directory, your home directory, or /etc/ansible.cfg. 
 
 # TODO 1. Copy the file 'ansible.cfg' to the project directory.
+# TODO 2. In lesson 9 you need to change the value of ask_vault_pass.
 
 # INFO: http://docs.ansible.com/ansible/intro_configuration.html 
 # INFO: https://github.com/ansible/ansible/blob/devel/examples/ansible.cfg
 
-GOTO: ../lesson-04/README.txt
-#

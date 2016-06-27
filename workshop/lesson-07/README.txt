@@ -6,7 +6,7 @@
 
 ---
 - src: hostclick.tomcat
-- src: sfromm.postgresql
+- src: bbaassssiiee.el_postgres_role
 
 
 In Ansible you can write a list of tasks using YAML. YAML uses spacing just like Python, i.e. formating is important.
@@ -25,5 +25,3 @@ In Ansible you can write a list of tasks using YAML. YAML uses spacing just like
 # TODO 1. Copy the directory 'roles' into the project directory.
 # INFO: 
 
-GOTO: ../lesson-08/README.txt
-# 

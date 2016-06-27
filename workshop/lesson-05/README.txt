@@ -46,7 +46,3 @@ The command 'ansible' works on a subset of your inventory ('all' in the above ca
 # TODO 4. Verify the disk space on /var of the web server.
 
     ansible web -a 'df -h /var'
-
-
-GOTO: ../lesson-06/README.txt
-#

@@ -21,7 +21,7 @@ Your database playbook at the highest level will show the plays for each group o
   roles:
     - ntp
 		- ssh
-    - sfromm.postgresql
+    - bbaassssiiee.el_postgres_role
 
   tasks: []
 
@@ -29,10 +29,11 @@ Your database playbook at the highest level will show the plays for each group o
     - include: dbservers/post_tasks.yml
 
 
-SLIDES: There are slides explaining this topic.
+SLIDES: There are slides explaining roles in more depth.
 
 TODO 1. Copy everything from this folder to the project folder.
 TODO 2. login to 'control', cd to 'project' and run 'install.yml'
+TODO 3. Change the value of ask_vault_pass in the file ansible.cfg
 
 HINT: Galaxy already has thousands of roles.
 

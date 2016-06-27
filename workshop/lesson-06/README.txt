@@ -28,7 +28,5 @@ In Ansible you can write a list of tasks. We start by naming our list, and we al
   ansible-playbook webservers.yml
 
 # TODO 3. Verify the web page at http://192.168.20.20/
+# TODO 4: Try creating a playbook that publishes a web page at address.
 
-
-GOTO: ../lesson-07/README.txt
-#
