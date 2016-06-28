@@ -2,10 +2,11 @@
 
 # MOTTO: Magic happens when you put your files in the right locations.
 
-# TODO 1. Login to 'control', cd to 'project' and run 'site.yml'
-# TODO 2. Focus on one important aspect to improve the setup. Write a plan.
+# TODO 1. Copy the file 'site.yml' to the 'project' directory'.
+# TODO 2. Login to 'control', cd to 'project' and run 'site.yml'
+# TODO 3. Focus on one important aspect to improve the setup. Write a plan.
 
-# TIP: Follow the recommended directory layout
+# TIP: Follow the recommended directory layout:
 
 ansible.cfg            # parameters that affect running ansible
 inventory/             # an inventory defines an environment

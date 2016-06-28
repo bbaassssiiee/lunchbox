@@ -1,11 +1,12 @@
 # lesson-09 Roles
 
-MOTTO: Keep it simple.
+MOTTO: Keep it simple. Don't do everything yourself.
 
-TIP: Separate top level playbooks by role
-Roles are ways of automatically loading certain vars_files, tasks, and handlers based on a known file structure. Grouping content by roles also allows easy sharing of roles with other users.
+Grouping content by 'roles' allows easy sharing of roles with other users.
+Roles are ways of automatically loading certain files, tasks, vars_files, and handlers based on a known file structure. 
 
-Your database playbook at the highest level will show the plays for each group of hosts involved. The play can have your custom pre_tasks and post_tasks, and for the rest, this is implemented as separate hosts.
+The playbook 'dbservers.yml' playbook shows that a play can have custom pre_tasks and post_tasks, and for the rest, be implemented as standard roles. 
+I made a simple role for NTP, and a larger one for SSH. And, uploaded a role to Galaxy.
 
 ---
 
@@ -29,18 +30,19 @@ Your database playbook at the highest level will show the plays for each group o
     - include: dbservers/post_tasks.yml
 
 
+HINT: 
 SLIDES: There are slides explaining roles in more depth.
 
 TODO 1. Copy everything from this folder to the project folder.
+
 TODO 2. login to 'control', cd to 'project' and run 'install.yml'
-TODO 3. Change the value of ask_vault_pass in the file ansible.cfg
 
-HINT: Galaxy already has thousands of roles.
-
-TIP: roles_path in ansible.cfg separates your own roles and Galaxy roles.
+    ansible-playbook install.yml
+    
+Look what happened! You downloaded roles from galaxy. Galaxy already has thousands of roles. 
+    
+TODO 3. Change the value of ask_vault_pass in the file ansible.cfg to True.
 
 INFO: http://docs.ansible.com/ansible/playbooks_roles.html#roles
+TIP: roles_path in ansible.cfg separates your own roles and Galaxy roles.
 
-
-GOTO: ../lesson-10/README.txt
-# 
