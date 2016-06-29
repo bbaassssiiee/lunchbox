@@ -1,32 +1,18 @@
 ---
-# This file is written in the Ansible language, but it is incomplete.
+# This example file is written in the Ansible language, but it is incomplete.
 
 # TODO 1. Figure out what OS you run and if you need to install these tools.
 
 - hosts: localhost
 
-  vars:
-    home_dir: "{{ lookup('env','HOME') }}"
-
   tasks:
 
     - name: Download and install VirtualBox
-      get_url: dest={{ home_dir }}
-               url=https://www.virtualbox.org/wiki/Downloads
+      get_url: url=https://www.virtualbox.org/wiki/Downloads
 
     - name: Download and install Vagrant
-      get_url: dest={{ home_dir }}
-               url=https://www.vagrantup.com/
+      get_url: url=https://www.vagrantup.com/
 
     - name: Download and install Git
-      get_url: dest={{ home_dir }}
-               url=https://git-scm.com/downloads
+      get_url: url=https://git-scm.com/downloads
 
-    - name: Clone project (optional)
-      git: repo=https://github.com/bbaassssiiee/lunchbox.git
-           dest={{ home_dir }}
-
-    - name: Launch virtual machines
-      shell: (cd lunchbox; vagrant up)
-
-# GOTO: ../lesson-01/README.txt
