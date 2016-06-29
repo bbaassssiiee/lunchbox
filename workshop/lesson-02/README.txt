@@ -10,7 +10,11 @@ A good practice in modern development is to create an environment locally, that 
 
 # TODO 2. Then copy the file 'Vagrantfile' in this directory to the 'project' directory.
 
-# TODO 3. cd to the 'project' directory using the command shell/Terminal
+# TODO 3. Type this to add our secure base box to your VirtualBox, it is re-usable:
+
+      vagrant box add vagrant box add --force dockpack/centos6 dockpack_centos.box
+
+ TODO 3. cd to the 'project' directory using the command shell/Terminal
 # TYPE:   vagrant up
 
 This will start the virtual machines used in this workshop on your laptop.
