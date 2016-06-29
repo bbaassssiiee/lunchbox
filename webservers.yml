@@ -12,7 +12,7 @@
     - include: webservers/pre_tasks.yml
 
   roles:
-    - common
+    - { role: common, tags: 'common' }
     - ntp
     - pam
     - rsyslog

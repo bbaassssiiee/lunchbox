@@ -13,11 +13,11 @@
     - include: dbservers/pre_tasks.yml
 
   roles:
-    - common
+    - { role: common, tags: 'common' }
     - ntp
     - pam
     - ssh
-    - postgres
+    - bbaassssiiee.el_postgres_role
     - rsyslog
 
   tasks: []

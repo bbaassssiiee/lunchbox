@@ -30,7 +30,7 @@
 - name: 'system security patches and updates must be installed and up-to-date'
   yum: name=* state=latest
   tags:
-    - common
+    - patches
 
 - name: 'ensure auditing at boot time'
   command: sed -i '/^\tkernel/ s/$/ audit=1/' /etc/grub.conf
@@ -43,6 +43,7 @@
   when: internet is defined
   tags:
     - common
+    - epel
 
 - name: 'set hostname'
   hostname: name={{ inventory_hostname }}
