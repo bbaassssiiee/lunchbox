@@ -42,4 +42,3 @@ The name of the files in the group_vars directory line up with the group name be
 
 # TIP: variables files can be encrypted with a password.
 
-# GOTO: ../lesson-09/README.txt

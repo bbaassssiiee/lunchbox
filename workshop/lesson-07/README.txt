@@ -7,6 +7,7 @@
 ---
 - src: hostclick.tomcat
 - src: bbaassssiiee.el_postgres_role
+- src: https://github.com/elastic/ansible-elasticsearch.git
 
 
 In Ansible you can write a list of tasks using YAML. YAML uses spacing just like Python, i.e. formating is important.

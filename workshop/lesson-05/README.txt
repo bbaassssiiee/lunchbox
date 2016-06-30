@@ -1,6 +1,6 @@
 # lesson-05 Ad-hoc commands
 
-# TALK: Verify if your group is on the same page. All systems up?
+# TALK: Verify if your group is logged on to the vm 'control'. All systems up?
 
 # TODO 1. We are going to verify the ansible version, and update it if possible.
 Enter these commands on the control host:
@@ -22,7 +22,11 @@ web | success >> {
 }
 --------------------------------------------------------------------------------
 
-# TODO 3. Check the modules that you can use.
+The command 'ansible' works on a subset of your inventory ('all' in the above case), and each 'ansible' invocation can use one 'module' (that is what '-m' stands for). 
+
+A 'module' can optionally accept 'arguments' (that is what the '-a' stands for). If you don't specify a module, then 'command' is the default.
+
+# TODO 3. Check what other modules you can use.
 
     ansible-doc -l
 
@@ -30,8 +34,7 @@ web | success >> {
 
     ansible all -m shell -a free
 
-The command 'ansible' works on a subset of your inventory ('all' in the above case), and each 'ansible' invocation can use one 'module' (that is what '-m' stands for). A 'module' can optionally accept 'arguments' (that is what the '-a' stands for). If you don't specify a module, then 'command' is the default.
-
 # TODO 5. Verify the disk space on /var of the web server.
 
     ansible web -a 'df -h /var'
+

@@ -6,7 +6,7 @@
 # TODO 2. Login to 'control', cd to 'project' and run 'site.yml'
 # TODO 3. Focus on one important aspect to improve the setup. Write a plan.
 
-# TIP: Follow the recommended directory layout:
+# TIP: In your projects follow the recommended directory layout:
 
 ansible.cfg            # parameters that affect running ansible
 inventory/             # an inventory defines an environment

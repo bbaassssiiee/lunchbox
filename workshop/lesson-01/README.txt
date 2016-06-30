@@ -2,12 +2,10 @@
 
 # MOTTO: Organize your content.
 
-# TALK: Give a short intro about the infrastructure you work on.
+# The Ansible inventory allows you to work with groups of systems. 
+# You can use a very simple INI format to declare what hosts do.
 
-# Ansible inventories allow you to work with groups of systems. 
-# You can use a very simple INI format to declare wich host does what. 
-
-In the example below there are 2 machines called 'sql' and 'web'. The example also has two groups in square brackets. In the subdirectory 'inventory' you will find a file that adds more details. 
+In the example below there are 2 machines called 'sql' and 'web'. The example also has two groups in square brackets. In this directory you will find a file that adds more details: 'inventory.ini'
 
 
 [dbservers]
@@ -17,9 +15,9 @@ sql
 web
 
 
+# TODO 1. Open 'inventory.ini' in your editor and look what it is about.
 
-# TODO 1. Open 'inventory/hosts' in your editor and look what it is about.
-# TODO 2. Copy the inventory directory to the project directory.
+# TALK: Give a short intro about the infrastructure you work on.
 
 # INFO: http://slides.com/racku/ansible-fundamentals#/5/2
 
@@ -32,6 +30,8 @@ TIPS:
 * Target an environment with the -i flag.
 * If you have a system maintaining a list of systems in your infrastructure, use it for your dynamic inventory.
 * Dynamic inventory files are executables, and must emit JSON.
+
+# TODO: Skip the rest of this file if you are a beginner.
 
 
 # HINT: Ansible Tower can keep inventories and credentials securely.
