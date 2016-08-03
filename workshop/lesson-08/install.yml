@@ -9,6 +9,11 @@
     - url: "https://galaxy.ansible.com"  
 
   tasks:                       # list tasks, but consider using a role
+
+    - name: 'update Ansible rpm'
+      become: yes
+      yum: name=ansible state=latest
+
     - name: 'check network'    # format parameters for small terminal size
       uri: url={{ url }}     
            method=HEAD
@@ -18,16 +23,6 @@
            follow_redirects=all
 
     - name: 'import roles from Galaxy and/or Git'
-      command: ansible-galaxy install -r roles/requirements.yml
+      command: ansible-galaxy install -r requirements.yml
  
-    - name: 'update Ansible rpm'
-      become: yes
-      yum: name=ansible state=latest
 
-    - name: 'ensure permissions on ssh private key file'
-      file: name=/home/vagrant/project/vagrant.rsa state=file mode=0600
-
-    - name: 'ensure permissions on directory'
-      file: name=/home/vagrant/project state=directory mode=0700
-
-    

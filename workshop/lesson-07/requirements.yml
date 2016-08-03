@@ -1,0 +1,9 @@
+---
+# This file has a list of required roles.
+# Roles are installed from elsewhere, from Git or Galaxy.
+
+# Git example, the role will be downloaded, not cloned.
+- src: https://github.com/bbaassssiiee/el_postgres_role.git
+
+# Galaxy example: the Tomcat server, written by user hostclick.
+- src: hostclick.tomcat
