@@ -27,10 +27,10 @@
   tags:
     - common
 
-- name: 'system security patches and updates must be installed and up-to-date'
-  yum: name=* state=latest
-  tags:
-    - patches
+#- name: 'system security patches and updates must be installed and up-to-date'
+#  yum: name=* state=latest
+#  tags:
+#    - patches
 
 - name: 'ensure auditing at boot time'
   command: sed -i '/^\tkernel/ s/$/ audit=1/' /etc/grub.conf

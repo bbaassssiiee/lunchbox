@@ -167,3 +167,6 @@
   shell: rm -f /home/*/.ssh/authorized_keys*
   tags:
     - ssh
+
+- name: 'deny interactive shell for ansible_user'
+  copy: src=bash_profile dest=/home/{{ansible_user}}/.bash_profile

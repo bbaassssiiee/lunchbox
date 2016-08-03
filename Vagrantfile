@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "dockpack/centos6"
   config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
   config.vm.box_check_update = true
-  
+
   # we are using the standard insecure vagrant key (see ssh role)
   config.ssh.forward_agent = false
   config.ssh.insert_key = false
@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "control", primary: true do |control|
     control.vm.hostname = "control"
     control.vm.network "private_network", ip: "192.168.20.30"
-    control.vm.synced_folder ".", "/home/vagrant/lunchbox", id: "vagrant-root", disabled: false
+    control.vm.synced_folder ".", "/home/vagrant/lunchbox", id: "vagrant-root", disabled: true
     #control.vm.synced_folder "./", "/home/vagrant/lunchbox", :nfs => true, :mount_options => ['vers=3','noatime','actimeo=2', 'tcp', 'fsc']
     control.vm.provider "virtualbox" do |vb|
       vb.customize ["modifyvm", :id, "--memory", "512", "--natnet1", "172.16.1/24"]
@@ -40,9 +40,9 @@ Vagrant.configure("2") do |config|
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
       vb.name = "control"
       vb.gui = false
-    end   
+    end
   end
-  
+
   # this is the frontend webserver host
   config.vm.define :web,  autostart: true do |web_config|
     web_config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
