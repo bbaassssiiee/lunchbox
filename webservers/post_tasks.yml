@@ -11,6 +11,10 @@
     tags:
       - test
 
+  - name: 'relax selinux a bit for demo'
+    become: yes
+    command: setenforce 0
+
   - name: 'verify firewall and reverse proxy'
     become: no
     local_action: uri url=http://192.168.20.20/examples/ 

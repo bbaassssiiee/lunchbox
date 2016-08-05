@@ -37,9 +37,11 @@
     
 - name: 'enable network connect for webserver'
   seboolean: name=httpd_can_network_connect persistent=yes state=yes
+  become: yes
   ignore_errors: yes
   tags:
     - reverse_proxy
+    - selinux
     
 - name: 'start httpd service'
   service: name=httpd enabled=true
