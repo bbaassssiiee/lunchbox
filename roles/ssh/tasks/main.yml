@@ -31,6 +31,15 @@
   tags:
     - ssh
 
+- name: 'verify if ecdsa host key is present'
+  stat:
+    path: /etc/ssh/ssh_host_ecdsa_key
+  register: ssh_host_ecdsa_key
+
+- name: 'generate a host key for sshd'
+  command: ssh-keygen -t ecdsa -f /etc/ssh_host_ecdsa_key -N ''
+  when: ssh_host_ecdsa_key.stat.exists == False
+
 - name: 'create central directory for authorized_keys'
   file:
     dest: /etc/ssh/authorized_keys
