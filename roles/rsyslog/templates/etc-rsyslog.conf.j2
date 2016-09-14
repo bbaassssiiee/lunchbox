@@ -1,14 +1,14 @@
 # /etc/rsyslog.conf file managed through ansible
 
 # Disregard the following harmless messages
-:msg, contains, "DHCPREQUEST on eth0" ~
-:msg, contains, "DHCPREQUEST on eth1" ~
-:msg, contains, "send_packet: Operation not permitted" ~
+:msg, contains, "DHCPREQUEST on eth0" stop
+:msg, contains, "DHCPREQUEST on eth1" stop
+:msg, contains, "send_packet: Operation not permitted" stop
 
 
 # iptables
 :msg, contains, "[fw] " -/var/log/iptables.log
-& ~
+& stop
 
 
 *.*   @@{{ log_host_ip }}:514
@@ -42,7 +42,7 @@ mail.*                                                  -/var/log/maillog
 cron.*                                                  /var/log/cron
 
 # Everybody gets emergency messages
-*.emerg                                                 *
+#*.emerg                                                 *
 
 # Save news errors of level crit and higher in a special file.
 uucp,news.crit                                          /var/log/spooler
