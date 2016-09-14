@@ -1,7 +1,9 @@
 ---
 
 - name: 'install packages for systems management'
-  yum: name={{ item }} state=present
+  yum:
+    name: "{{ item }}"
+    state: present
   with_items:
    - iptables
    - libselinux-python
@@ -13,7 +15,7 @@
    - unzip
   tags:
     - common
-    
+
 - name: 'disable pgdg94 repo'
   command: yum-config-manager --disable pgdg94
   when: inventory_hostname in groups.dbservers
@@ -28,7 +30,9 @@
     - common
 
 - name: 'system security patches and updates must be installed and up-to-date'
-  yum: name=* state=latest
+  yum:
+    name: "*"
+    state: latest
   tags:
     - patches
 
@@ -39,29 +43,37 @@
 
 # EPEL Yum repository adds Extra Packages for Enterprise Linux
 - name: 'add EPEL yum repo'
-  yum: name=epel-release state=present
+  yum:
+    name: epel-release
+    state: present
   when: internet is defined
   tags:
     - common
     - epel
 
 - name: 'set hostname'
-  hostname: name={{ inventory_hostname }}
+  hostname:
+    name: "{{ inventory_hostname }}"
   tags:
     - common
 
 - name: 'build hosts file'
-  template: src=hosts.j2 dest=/etc/hosts owner=root group=root mode=0644
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
   tags:
     - common
-     
+
 - name: 'create banner for login'
-  copy: 
-      src: issue 
-      dest: /etc/{{ item }} 
-      owner: root 
-      group: root 
-      mode: "0644" 
+  copy:
+      src: issue
+      dest: "/etc/{{ item }}"
+      owner: root
+      group: root
+      mode: "0644"
       backup: yes
   with_items:
     - issue

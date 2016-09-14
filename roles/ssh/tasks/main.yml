@@ -16,30 +16,38 @@
     - ssh
 
 - name: 'ensure package openssh-clients is latest'
-  yum: name=openssh-clients state=latest
+  yum:
+    name: openssh-clients
+    state: latest
   tags:
     - ssh
 
 - name: 'ensure package openssh-server is latest'
-  yum: name=openssh-server state=latest
+  yum:
+    name: openssh-server
+    state: latest
   notify:
     - restart sshd
   tags:
     - ssh
 
 - name: 'create central directory for authorized_keys'
-  file: dest=/etc/ssh/authorized_keys
-        state=directory 
-        owner=root 
-        group=root 
-        mode=0755
+  file:
+    dest: /etc/ssh/authorized_keys
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
   notify:
     - restart sshd
   tags:
     - ssh
 
 - name: 'create a group for users without ssh'
-  group: name=nossh gid=111 state=present
+  group:
+    name: nossh
+    gid: 111
+    state: present
   notify:
     - restart sshd
   tags:
@@ -52,11 +60,12 @@
     - ssh
 
 - name: 'install all authorized keys from the directory ansible_user'
-  authorized_key: path=/etc/ssh/authorized_keys/{{ ansible_user }}
-                  key="{{ lookup('file', item) }}"
-                  user={{ ansible_user }}
-                  manage_dir=no
-                  state=present
+  authorized_key:
+    path: /etc/ssh/authorized_keys/{{ ansible_user }}
+    key: "{{ lookup('file', item) }}"
+    user: "{{ ansible_user }}"
+    manage_dir: no
+    state: present
   with_fileglob:
     - ansible_user/*
   notify:
@@ -65,18 +74,22 @@
     - ssh
 
 - name: 'ensure all ssh_users have a user'
-  user: name={{ item|basename }} shell=/bin/bash state=present
+  user:
+    name: "{{ item|basename }}"
+    shell: /bin/bash
+    state: present
   with_fileglob:
     - ssh_users/*
   tags:
     - ssh
 
 - name: 'install all authorized keys from the directory ssh_users'
-  authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
-                  key="{{ lookup('file', item) }}"
-                  user={{ item|basename }}
-                  manage_dir=no
-                  state=present
+  authorized_key:
+    path: /etc/ssh/authorized_keys/{{ item|basename }}
+    key: "{{ lookup('file', item) }}"
+    user: "{{ item|basename }}"
+    manage_dir: no
+    state: present
   with_fileglob:
     - ssh_users/*
   notify:
@@ -85,57 +98,77 @@
     - ssh
 
 - name: 'create sftp group for chrooted users'
-  group: name=sftp gid=2003 state=present
+  group:
+    name: sftp
+    gid: 2003
+    state: present
   notify:
     - restart sshd
   tags:
     - ssh
 
 - name: 'create the sftp user in the sftp group'
-  user: name={{ item|basename }} group=sftp
-        shell="/bin/false"
-        home=/home/{{ item|basename }} createhome=yes
-        state=present
+  user:
+    name: "{{ item|basename }}"
+    group: sftp
+    shell: "/bin/false"
+    home: "/home/{{ item|basename }}"
+    createhome: yes
+    state: present
   with_fileglob:
     - sftp_users/*
   tags:
     - ssh
 
 - name: 'set permissions on homedir'
-  file: dest=/home/{{ item|basename }} owner=root group=root mode=755
+  file:
+    dest: "/home/{{ item|basename }}"
+    owner: root
+    group: root
+    mode: 0755
   with_fileglob:
     - sftp_users/*
   tags:
     - ssh
-    
+
 - name: 'ensure dir for files exists'
-  file: dest=/home/{{ item|basename }}/files state=directory
-        owner={{ item|basename }} group=users mode=2775
+  file:
+    dest: "/home/{{ item|basename }}/files"
+    state: directory
+    owner: "{{ item|basename }}"
+    group: users
+    mode: 02775
   with_fileglob:
     - sftp_users/*
   tags:
     - ssh
 
 - name: 'install all authorized keys from the directory sftp_users'
-  authorized_key: path=/etc/ssh/authorized_keys/{{ item|basename }}
-                  key="{{ lookup('file', item) }}"
-                  user={{ item|basename }}
-                  manage_dir=no
-                  state=present
+  authorized_key:
+    path: "/etc/ssh/authorized_keys/{{ item|basename }}"
+    key: "{{ lookup('file', item) }}"
+    user: "{{ item|basename }}"
+    manage_dir: no
+    state: present
   with_fileglob:
     - sftp_users/*
   tags:
     - ssh
 
 - name: 'ensure all non_users are removed'
-  user: name={{ item|basename }} groups= state=absent remove=yes
+  user:
+    name: "{{ item|basename }}"
+    state: absent
+    remove: yes
   with_fileglob:
     - non_users/*
   tags:
     - ssh
 
 - name: 'ensure all keys of non_users are removed'
-  file: dest=/etc/ssh/authorized_keys/{{ item|basename }} state=absent
+  file:
+    dest: "/etc/ssh/authorized_keys/{{ item|basename }}"
+    state: absent
   with_fileglob:
     - non_users/*
   tags:
@@ -147,14 +180,24 @@
     - ssh
 
 - name: 'build and write /etc/ssh/ssh_config file'
-  template: src=ssh_config.j2 dest=/etc/ssh/ssh_config owner=root group=root mode=0644
+  template:
+    src: ssh_config.j2
+    dest: /etc/ssh/ssh_config
+    owner: root
+    group: root
+    mode: 0644
   notify:
     - restart sshd
   tags:
     - ssh
 
 - name: 'build and write /etc/ssh/sshd_config file'
-  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0644
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
   tags:
     - ssh
 
@@ -169,4 +212,6 @@
     - ssh
 
 - name: 'deny interactive shell for ansible_user'
-  copy: src=bash_profile dest=/home/{{ansible_user}}/.bash_profile
+  copy:
+    src: bash_profile
+    dest: "/home/{{ansible_user}}/.bash_profile"

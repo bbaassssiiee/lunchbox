@@ -1,19 +1,29 @@
 ---
 
 - name: 'ensure package ntp is installed'
-  package: name=ntp state=latest
+  package:
+    name: ntp
+    state: present
   tags:
     - ntp
 
 - name: 'build and write /etc/ntp.conf file'
-  template: src=ntp.conf.j2 dest=/etc/ntp.conf
-      owner=root group=root mode=0644 backup=no
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
   notify:
     - restart ntpd
   tags:
     - ntp
 
 - name: 'enable ntpd as a service'
-  service: name=ntpd enabled=yes state=started
+  service:
+    name: ntpd
+    enabled: yes
+    state: started
   tags:
     - ntp

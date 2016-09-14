@@ -1,8 +1,12 @@
 ---
 - name: 'remove sysklogd'
-  yum: name=sysklogd state=absent
+  yum:
+    name: sysklogd
+    state: absent
 
 - name: 'restart rsyslog'
-  service: name=rsyslog state=restarted
+  service:
+    name: rsyslog
+    state: restarted
   tags:
     - rsyslog

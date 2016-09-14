@@ -1,6 +1,8 @@
 ---
-- name: yum install packages for apache
-  action: yum name={{ item }} state=installed
+- name: 'yum install packages for apache'
+  yum:
+    name: "{{ item }}"
+    state: installed
   with_items:
       - httpd
       - mod_ssl
@@ -9,41 +11,62 @@
     - reverse_proxy
 
 - name: 'create proxy configuration file'
-  template: src=httpd-conf.d-proxy.conf.j2 dest=/etc/httpd/conf.d/proxy.conf owner=root group=root mode=0600 backup=yes
+  template:
+    src: httpd-conf.d-proxy.conf.j2
+    dest: /etc/httpd/conf.d/proxy.conf
+    owner: root
+    group: root
+    mode: 0600
   notify:
     - restart httpd
   tags:
     - reverse_proxy
-    
+
 - name: 'create ssl configuration file'
-  template: src=httpd-conf.d-ssl.conf.j2 dest=/etc/httpd/conf.d/ssl.conf owner=root group=root mode=0600 backup=yes
+  template:
+    src: httpd-conf.d-ssl.conf.j2
+    dest: /etc/httpd/conf.d/ssl.conf
+    owner: root
+    group: root
+    mode: 0600
   notify:
     - restart httpd
   tags:
     - reverse_proxy
 
 - name: 'configure ServerName'
-  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerName '
-              line='ServerName {{inventory_hostname}}' state=present
-              insertafter='^#ServerName'
+  lineinfile:
+    dest: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerName '
+    line: "ServerName {{inventory_hostname}}"
+    state: present
+    insertafter: '^#ServerName'
   tags:
     - reverse_proxy
-    
+
 - name: 'mask ServerTokens'
-  lineinfile: dest=/etc/httpd/conf/httpd.conf regexp='^ServerTokens '
-              line='ServerTokens Prod' state=present
+  lineinfile:
+    dest: /etc/httpd/conf/httpd.conf
+    regexp: '^ServerTokens '
+    line: 'ServerTokens Prod'
+    state: present
   tags:
     - reverse_proxy
-    
+
 - name: 'enable network connect for webserver'
-  seboolean: name=httpd_can_network_connect persistent=yes state=yes
   become: yes
+  seboolean:
+    name: httpd_can_network_connect
+    persistent: yes
+    state: yes
   ignore_errors: yes
   tags:
     - reverse_proxy
     - selinux
-    
+
 - name: 'start httpd service'
-  service: name=httpd enabled=true
+  service:
+    name: httpd
+    enabled: true
   tags:
     - reverse_proxy

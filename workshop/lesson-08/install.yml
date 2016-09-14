@@ -2,27 +2,30 @@
 
 - name: 'install.yml'          # quote names for syntax highlighting
   hosts: localhost             # scope the play appropriately
-  connection: local            # 
+  connection: local            #
   gather_facts: False          # booleans: /^(y|yes|n|no|true|false|on|off)$/i
 
-  vars:                        
-    - url: "https://galaxy.ansible.com"  
+  vars:
+    - url: "https://galaxy.ansible.com"
 
   tasks:                       # list tasks, but consider using a role
 
     - name: 'update Ansible rpm'
       become: yes
-      yum: name=ansible state=latest
+      yum:
+        name: ansible
+        state: latest
 
     - name: 'check network'    # format parameters for small terminal size
-      uri: url={{ url }}     
-           method=HEAD
-           return_content=no
-           status_code=200
-           timeout=60
-           follow_redirects=all
+      uri:
+        url: "{{ url }}"
+        method: HEAD
+        return_content: no
+        status_code: 200
+        timeout: 60
+        follow_redirects: all
 
     - name: 'import roles from Galaxy and/or Git'
       command: ansible-galaxy install -r requirements.yml
- 
+
 

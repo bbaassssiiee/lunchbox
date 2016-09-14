@@ -1,13 +1,20 @@
 ---
 
 - name: 'ensure ca-certificates is latest'
-  yum: name=ca-certificates state=latest
+  yum:
+    name: ca-certificates
+    state: latest
   when: ansible_os_family == "RedHat"
   tags:
     - reverse_proxy
 
 - name: 'copy RootCA.crt to webserver'
-  copy: src=pki/RootCA.cer dest=/var/www/html/RootCA.cer owner=apache group=apache mode=0644
+  copy:
+    src: pki/RootCA.cer
+    dest: /var/www/html/RootCA.cer
+    owner: apache
+    group: apache
+    mode: 0644
   tags:
     - reverse_proxy
 
@@ -22,7 +29,10 @@
     - reverse_proxy
 
 - name: 'fetch certficate signing request'
-  fetch: src={{inventory_hostname}}.csr dest=pki/{{inventory_hostname}}.csr flat=yes
+  fetch:
+    src: "{{inventory_hostname}}.csr"
+    dest: "pki/{{inventory_hostname}}.csr"
+    flat: yes
   tags:
     - reverse_proxy
 
@@ -33,7 +43,9 @@
     - reverse_proxy
 
 - name: 'copy signed certificate to webserver'
-  copy: src=pki/{{inventory_hostname}}.crt dest=/etc/pki/tls/certs/{{inventory_hostname}}.crt
+  copy:
+    src: "pki/{{inventory_hostname}}.crt"
+    dest: "/etc/pki/tls/certs/{{inventory_hostname}}.crt"
   notify:
     - restart httpd
   tags:
@@ -56,4 +68,4 @@
   when: ansible_os_family == "RedHat"
   tags:
     - reverse_proxy
-  
+

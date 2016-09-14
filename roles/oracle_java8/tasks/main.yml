@@ -5,7 +5,7 @@
   command: yum clean all
   tags:
     - oracle_java8
-    
+
 - name: 'get Oracle Java 8 with wget'
   become: yes
   command: 'wget -q --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.rpm"'
@@ -23,15 +23,24 @@
   tags:
     - oracle_java8
 
+- name: 'Ensure presence of Java profile'
+  become: yes
+  file:
+    path: /etc/profile.d/jre.sh
+    state: touch
+    mode: 0755
+  tags:
+    - oracle_java8
+
 - name: 'fix JAVA_HOME'
   become: yes
-  shell: echo export JAVA_HOME=/usr/java/jdk1.8.0_91 > /etc/profile.d/jre.sh
+  lineinfile:
+    line: 'export JAVA_HOME=/usr/java/jdk1.8.0_91'
+    dest: /etc/profile.d/jre.sh
+    state: present
   tags:
     - oracle_java8
-    
-- name: 'fix permissions'
-  become: yes
-  file: dest=/etc/profile.d/jre.sh mode=0755
-  tags:
-    - oracle_java8
+
+
+
 

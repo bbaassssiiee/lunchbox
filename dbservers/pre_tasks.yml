@@ -1,19 +1,21 @@
 ---
     - name: 'fix "postgresql" in /etc/sysconfig/iptables file'
       become: yes
-      lineinfile: dest=/etc/sysconfig/iptables
-                  line='-A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT'
-                  state=present
-                  insertbefore=^COMMIT
+      lineinfile:
+        dest: /etc/sysconfig/iptables
+        line: '-A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT'
+        state: present
+        insertbefore: ^COMMIT
       tags:
         - iptables
 
     - name: 'fix "rsyslog" in /etc/sysconfig/iptables file'
       become: yes
-      lineinfile: dest=/etc/sysconfig/iptables
-                  line='-A INPUT -p tcp -m tcp --dport 514 -j ACCEPT'
-                  state=present
-                  insertbefore=^COMMIT
+      lineinfile:
+        dest: /etc/sysconfig/iptables
+        line: '-A INPUT -p tcp -m tcp --dport 514 -j ACCEPT'
+        state: present
+        insertbefore: ^COMMIT
       tags:
         - iptables
 

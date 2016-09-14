@@ -1,16 +1,25 @@
 ---
   - name: 'verify tcp listening socket for PostgreSQL'
-    wait_for: port=5432 timeout=5
+    wait_for:
+      port: 5432
+      timeout: 5
     tags:
       - test
 
   - name: 'create database'
-    postgresql_db: name=database template='template0' encoding='UTF-8'
+    postgresql_db:
+      name: database
+      template: template0
+      encoding: UTF-8
     tags:
       - config
 
   - name: 'create dba user'
-    postgresql_user: db=database name='{{dba_user}}' password='{{dba_password}}'
+    postgresql_user:
+      db: database
+      name: dba
+      password: "{{dba_password}}"
     tags:
       - config
       - secret
+
