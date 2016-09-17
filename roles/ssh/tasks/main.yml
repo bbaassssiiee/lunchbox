@@ -37,8 +37,8 @@
   register: ssh_host_ecdsa_key
 
 - name: 'generate a host key for sshd'
-  command: ssh-keygen -t ecdsa -f /etc/ssh_host_ecdsa_key -N ''
-  when: ssh_host_ecdsa_key.stat.exists == False
+  command: ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+  when: not ssh_host_ecdsa_key.stat.exists
 
 - name: 'create central directory for authorized_keys'
   file:
