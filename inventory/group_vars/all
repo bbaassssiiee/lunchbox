@@ -3,9 +3,8 @@ ansible_user: ansible
 
 dns_nameserver: 8.8.4.4
 
-pg_host: sql
-pg_ip: 192.168.20.22
-pg_subnet: 192.168.20.0/24
+el_postgres_mip: 192.168.20.22
+el_postgres_net: 192.168.20.0/24
 
 log_host: sql
 log_host_ip: 192.168.20.22
