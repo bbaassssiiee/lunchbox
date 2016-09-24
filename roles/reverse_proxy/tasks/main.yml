@@ -5,3 +5,6 @@
 # Configure certificates
 - include: certificates.yml
 
+# Configure firewall
+- include: firewall.yml
+
