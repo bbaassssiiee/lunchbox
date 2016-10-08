@@ -20,6 +20,8 @@
         - iptables
 
     - name: 'restart iptables'
-      command: service iptables restart
+      service:
+        name: iptables
+        state: restarted
       tags:
         - iptables

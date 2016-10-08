@@ -58,6 +58,8 @@
     - rsyslog
 
 - name: 'restart rsyslog'
-  command: service rsyslog restart
+  service:
+    name: rsyslog
+    state: restarted
   tags:
     - rsyslog

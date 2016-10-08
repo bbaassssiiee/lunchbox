@@ -15,10 +15,10 @@
   tags:
     - ssh
 
-- name: 'ensure package openssh-clients is latest'
+- name: 'ensure package openssh-clients is present'
   yum:
     name: openssh-clients
-    state: latest
+    state: present
   tags:
     - ssh
 
@@ -30,6 +30,7 @@
     - restart sshd
   tags:
     - ssh
+    - skip_ansible_lint # sshd is security critical
 
 - name: 'verify if ecdsa host key is present'
   stat:
@@ -63,7 +64,9 @@
     - ssh
 
 - name: 'unlock central authorized_keys files for writing'
-  shell: chattr -i /etc/ssh/authorized_keys/*
+  command: chattr -i /etc/ssh/authorized_keys/{{ item }}
+  with_fileglob:
+    - /etc/ssh/authorized_keys//*
   ignore_errors: yes
   tags:
     - ssh
@@ -184,7 +187,9 @@
     - ssh
 
 - name: 'lock central authorized_keys files for writing'
-  shell: chattr +i /etc/ssh/authorized_keys/*
+  command: chattr +i /etc/ssh/authorized_keys/{{ item }}
+  with_fileglob:
+    - /etc/ssh/authorized_keys//*
   tags:
     - ssh
 
@@ -211,7 +216,9 @@
     - ssh
 
 - name: 'restart sshd'
-  command: service sshd restart
+  service:
+    name: sshd
+    state: restarted
   tags:
     - ssh
 
@@ -219,6 +226,7 @@
   shell: rm -f /home/*/.ssh/authorized_keys*
   tags:
     - ssh
+    - skip_ansible_lint # with_fileglob cannot match directories
 
 - name: 'deny interactive shell for ansible_user'
   copy:

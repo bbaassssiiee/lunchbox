@@ -1,7 +1,7 @@
 ---
 
   - name: 'verify java -version'
-    shell: /usr/bin/java -version
+    command: /usr/bin/java -version
     register: java
     changed_when: no
     tags:
@@ -17,14 +17,15 @@
   - name: 'relax selinux a bit for demo'
     become: yes
     command: setenforce 0
+    changed_when: yes
 
   - name: 'verify firewall and reverse proxy'
     become: no
     delegate_to: localhost
-    uri: 
+    uri:
       url: "http://192.168.20.20/examples/"
       status_code: 200
-      delay: 30
+      delay: 120
       timeout: 30
       validate_certs: no
     tags:

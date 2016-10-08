@@ -19,7 +19,7 @@
 
   - name: 'download from http://iase.disa.mil/'
     get_url:
-      url: {{stig_baseurl}}/{{benchmark}}
+      url: "{{stig_baseurl}}/{{benchmark}}"
       dest: /tmp/{{benchmark}}
     tags:
       - audit

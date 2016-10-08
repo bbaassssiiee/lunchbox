@@ -1,9 +1,9 @@
 ---
 
-- name: 'ensure ca-certificates is latest'
+- name: 'ensure ca-certificates is present'
   yum:
     name: ca-certificates
-    state: latest
+    state: present
   when: ansible_os_family == "RedHat"
   tags:
     - reverse_proxy
@@ -41,6 +41,7 @@
   local_action: shell /bin/bash --login -c 'openssl x509 -req -in pki/{{inventory_hostname}}.csr -CA pki/RootCA.pem -CAkey pki/RootCA.key -CAcreateserial -out pki/{{inventory_hostname}}.crt -days 180'
   tags:
     - reverse_proxy
+    - skip_ansible_lint # TODO
 
 - name: 'copy signed certificate to webserver'
   copy:
@@ -68,4 +69,3 @@
   when: ansible_os_family == "RedHat"
   tags:
     - reverse_proxy
-

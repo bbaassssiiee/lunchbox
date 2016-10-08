@@ -1,0 +1,9 @@
+---
+- name: 'debug a host'
+  hosts: all
+
+  tasks:
+  - name: 'allow access'
+    file:
+      path: .bash_profile
+      state: absent
