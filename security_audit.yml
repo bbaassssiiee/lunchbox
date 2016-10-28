@@ -25,12 +25,16 @@
       - audit
 
   - name: 'unzip Security Content Automation Protocol Content'
-    command: unzip -o /tmp/{{benchmark}}
+    unarchive:
+      src: "/tmp/{{benchmark}}"
+      dest: ""
+      copy: no
     tags:
       - audit
 
   - name: 'make this benchmark work for Centos instead of RHEL'
     shell: "perl -pi -e 's/redhat:enterprise_linux/centos:centos/;' *.xml"
+    changed_when: yes
     tags:
       - audit
 
@@ -41,6 +45,7 @@
       --report /tmp/rhel-stig-report.html \
       --cpe U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark-cpe-dictionary.xml \
       U_RedHat_6_V1R8_STIG_SCAP_1-1_Benchmark-xccdf.xml"
+    changed_when: yes
     no_log: yes
     ignore_errors: yes
     tags:
@@ -63,5 +68,3 @@
     tags:
       - audit
       - demo
-
-
