@@ -67,6 +67,7 @@
   command: chattr -i /etc/ssh/authorized_keys/{{ item }}
   with_fileglob:
     - /etc/ssh/authorized_keys//*
+  changed_when: yes
   ignore_errors: yes
   tags:
     - ssh
@@ -190,6 +191,7 @@
   command: chattr +i /etc/ssh/authorized_keys/{{ item }}
   with_fileglob:
     - /etc/ssh/authorized_keys//*
+  changed_when: yes
   tags:
     - ssh
 

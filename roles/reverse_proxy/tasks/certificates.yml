@@ -25,6 +25,8 @@
 
 - name: 'generate certificate signing request'
   command: "openssl req -new -key /etc/pki/tls/private/{{inventory_hostname}}.key -out {{inventory_hostname}}.csr -subj '/C=NL/ST=NH/L=Amsterdam/O=AnsibleBenelux/CN={{inventory_hostname}}'"
+  args:
+    creates: "{{inventory_hostname}}.csr"
   tags:
     - reverse_proxy
 

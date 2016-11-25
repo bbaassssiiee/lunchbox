@@ -11,6 +11,11 @@ install:
 # Install python extensions for Ansible
 	pip install --upgrade -r requirements.txt
 
+# login to 'control' with 'vagrant ssh', then run 'make setup'
+setup:
+	@cp pki/vagrant.rsa ~/.ssh/id_rsa
+	@chmod 600 ~/.ssh/id_rsa
+
 provision:
 	vagrant up --no-provision
 	
