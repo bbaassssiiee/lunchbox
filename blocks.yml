@@ -1,4 +1,4 @@
----
+#!/usr/bin/env ansible-playbook
 
 - name: 'blocks.yml'
   hosts: localhost
@@ -6,17 +6,15 @@
 
   tasks:
     - block:
+        - name: 'I execute normally'
+          command: /usr/bin/false
         - debug:
-            msg: 'i execute normally'
-        - command: /usr/bin/false
-        - debug:
-            msg: 'i never execute, cause ERROR!'
+            msg: 'I never execute, cause ERROR!'
       rescue:
-        - debug:
-            msg: 'I caught an error'
-        - command: /usr/bin/false
+        - name: 'I caught an error'
+          command: /usr/bin/false
         - debug:
             msg: 'I also never execute :-('
       always:
         - debug:
-            msg: "this always executes"
+            msg: "This always executes"

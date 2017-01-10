@@ -1,4 +1,4 @@
-#!/usr/bin/env ansible-playbook 
+#!/usr/bin/env ansible-playbook
 - name: 'hardening.yml'
   hosts: all
   gather_facts: True
@@ -11,5 +11,4 @@
   - rhel6stig_fullauto: true
 
   roles:
-    - RHEL6-STIG
-
+    - { role: RHEL6-STIG, tags: ["audit","patch","skip_ansible_lint"] }
