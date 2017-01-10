@@ -1,29 +1,60 @@
 ---
-
-- name: 'ensure package ntp is installed'
-  package:
-    name: ntp
-    state: present
+- name: make sure package ntp is installed
+  yum: name=ntp state=present
   tags:
     - ntp
 
-- name: 'build and write /etc/ntp.conf file'
-  template:
-    src: ntp.conf.j2
-    dest: /etc/ntp.conf
-    owner: root
-    group: root
-    mode: 0644
-    backup: no
+- name: copy /etc/sysconfig/ntpd
+  copy: src=ntpd dest=/etc/sysconfig/ntpd
+      owner=root group=root mode=0644
+  tags:
+    - ntp
   notify:
     - restart ntpd
+
+- name: build and write /etc/ntp.conf file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+      owner=root group=root mode=0644
+  tags:
+    - ntp
+  notify:
+    - restart ntpd
+
+- name: enable ntpd as a service
+  service: name=ntpd enabled=yes state=started
   tags:
     - ntp
 
-- name: 'enable ntpd as a service'
-  service:
-    name: ntpd
-    enabled: yes
-    state: started
+- name: wait 5 seconds
+  pause: seconds=5
+  tags:
+    - ntp
+
+- name: verify time synchronization
+  command: ntpstat
+  register: ntpstat
+  changed_when: no
+  ignore_errors: yes
+  tags:
+    - test
+    - ntp
+
+- name: stop ntpd as a service
+  service: name=ntpd enabled=yes state=stopped
+  when: ntpstat.rc
+  tags:
+    - ntp
+
+- name: sync the clock to the nl ntp pool
+  command: ntpdate 0.nl.pool.ntp.org
+  when: ntpstat.rc
+  changed_when: yes
+  ignore_errors: yes
+  tags:
+    - ntp
+
+- name: enable ntpd as a service
+  service: name=ntpd enabled=yes state=started
+  when: ntpstat.rc
   tags:
     - ntp

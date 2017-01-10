@@ -14,14 +14,15 @@
 
   roles:
     - { role: common, tags: 'common' }
-    - ntp
-    - pam
-    - ssh
-    - bbaassssiiee.el_postgres_role
-    - rsyslog
+    - { role: ntp, tags: 'ntp' }
+    - { role: pam, tags: 'pam' }
+    - { role: rsyslog, tags: 'rsyslog' }
+    - { role: ssh, tags: 'ssh' }
+    - { role: bbaassssiiee.el_postgres_role, tags: 'postgres' }
 
   tasks: []
 
   post_tasks:
     - include: dbservers/post_tasks.yml
 
+  handlers: []

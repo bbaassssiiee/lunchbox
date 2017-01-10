@@ -13,14 +13,16 @@
 
   roles:
     - { role: common, tags: 'common' }
-    - ntp
-    - pam
-    - rsyslog
-    - ssh
-    - tcpwrappers
-    - reverse_proxy
-    - oracle_java8
-    - hostclick.tomcat
+    - { role: ntp, tags: 'ntp' }
+    - { role: pam, tags: 'pam' }
+    - { role: rsyslog, tags: 'rsyslog' }
+    - { role: ssh, tags: 'ssh' }
+    - { role: tcpwrappers, tags: 'tcpwrappers' }
+    - { role: reverse_proxy, tags: 'reverse_proxy' }
+    - { role: oracle_java8, tags: 'oracle_java8' }
+    - { role: hostclick.tomcat, tags: 'hostclick.tomcat' }
+
+  tasks: []
 
   post_tasks:
     - include: webservers/post_tasks.yml

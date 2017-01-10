@@ -12,6 +12,7 @@
   with_items:
     - password-auth
     - system-auth
+  when: ansible_distribution_major_version == '6'
   tags:
     - pam
 
@@ -27,6 +28,7 @@
   with_items:
     - system-auth
     - password-auth
+  when: ansible_distribution_major_version == '6'
   tags:
     - pam
 
@@ -41,6 +43,7 @@
   with_items:
     - system-auth
     - password-auth
+  when: ansible_distribution_major_version == '6'
   tags:
     - pam
 

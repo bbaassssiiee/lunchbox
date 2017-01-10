@@ -6,6 +6,7 @@
     state: present
     insertafter: ^-A INPUT -i lo -j ACCEPT
   notify: restart iptables
+  when: ansible_distribution_major_version == '6'
   tags:
     - iptables
 
@@ -17,6 +18,7 @@
     state: present
     insertafter: ^-A INPUT -i lo -j ACCEPT
   notify: restart iptables
+  when: ansible_distribution_major_version == '6'
   tags:
     - iptables
 

@@ -6,6 +6,7 @@
         line: '-A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT'
         state: present
         insertbefore: ^COMMIT
+      when: ansible_distribution_major_version == '6'
       tags:
         - iptables
 
@@ -16,6 +17,7 @@
         line: '-A INPUT -p tcp -m tcp --dport 514 -j ACCEPT'
         state: present
         insertbefore: ^COMMIT
+      when: ansible_distribution_major_version == '6'
       tags:
         - iptables
 
@@ -23,5 +25,6 @@
       service:
         name: iptables
         state: restarted
+      when: ansible_distribution_major_version == '6'
       tags:
         - iptables

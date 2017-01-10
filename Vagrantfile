@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
   config.vm.provider "vmware_fusion"
 
   # the source of this secure VM on https://github.com/dockpack/dockpack.git
-  config.vm.box = "dockpack/centos6"
-  config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos6"
+  config.vm.box = "dockpack/centos7"
+  config.vm.box_url = "https://atlas.hashicorp.com/dockpack/boxes/centos7"
   config.vm.box_check_update = true
 
   # we are using the standard insecure vagrant key (see ssh role)

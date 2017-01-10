@@ -64,9 +64,9 @@
     - ssh
 
 - name: 'unlock central authorized_keys files for writing'
-  command: chattr -i /etc/ssh/authorized_keys/{{ item }}
+  command: chattr -i /etc/ssh/authorized_keys/{{ item|basename }}
   with_fileglob:
-    - /etc/ssh/authorized_keys//*
+    - /etc/ssh/authorized_keys/*
   changed_when: yes
   ignore_errors: yes
   tags:
@@ -101,6 +101,7 @@
     path: /etc/ssh/authorized_keys/{{ item|basename }}
     key: "{{ lookup('file', item) }}"
     user: "{{ item|basename }}"
+    exclusive: yes
     manage_dir: no
     state: present
   with_fileglob:
@@ -162,6 +163,7 @@
     key: "{{ lookup('file', item) }}"
     user: "{{ item|basename }}"
     manage_dir: no
+    exclusive: yes
     state: present
   with_fileglob:
     - sftp_users/*
@@ -190,7 +192,7 @@
 - name: 'lock central authorized_keys files for writing'
   command: chattr +i /etc/ssh/authorized_keys/{{ item }}
   with_fileglob:
-    - /etc/ssh/authorized_keys//*
+    - /etc/ssh/authorized_keys/*
   changed_when: yes
   tags:
     - ssh
@@ -217,10 +219,18 @@
   tags:
     - ssh
 
+- name: check sshd configuration
+  command: '/usr/sbin/sshd -t'
+  register: sshd_config
+  changed_when: 'sshd_config.rc != 0'
+  tags:
+    - ssh
+
 - name: 'restart sshd'
   service:
     name: sshd
     state: restarted
+  when: 'sshd_config.rc != 0'
   tags:
     - ssh
 
