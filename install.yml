@@ -1,8 +1,9 @@
 #!/usr/bin/env ansible-playbook
 
 - name: 'install.yml'          # quote names for syntax highlighting
-  hosts: localhost             # scope the play appropriately
-  connection: local            #
+  hosts: all                   # scope the play appropriately
+ # connection: local            #
+  become: yes                  # get root
   gather_facts: False          # booleans: /^(y|yes|n|no|true|false|on|off)$/i
 
   tags:                        # use tags for plays, and actions
@@ -20,8 +21,53 @@
         status_code: 200
         timeout: 60
         follow_redirects: all
+    - name: 'known_host'
+      file:
+        path: /home/vagrant/.ssh/known_hosts
+        state: absent
 
-    - name: 're-import roles from Galaxy'
-      command: ansible-galaxy install --force -r roles/requirements.yml
-      changed_when: yes
+    - name: 'ssh-keyscan'
+      become_user: vagrant
+      shell: "ssh-keyscan {{ item }} >> ~/.ssh/known_hosts"
+      with_items:
+        - sql
+        - web
 
+    - name: key dir
+      file:
+        path: /etc/ssh/vagrant
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+
+    - name: copy key
+      command: cp /home/vagrant/files/private/vagrant.rsa /etc/ssh/vagrant/id_rsa
+
+    - name: chmod
+      file:
+        path: /etc/ssh/vagrant/id_rsa
+        owner: vagrant
+        group: vagrant
+        mode: 0400
+
+    - name: 'install packages for Ansible'
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - python-setuptools
+        - python-virtualenv
+        - python-pip
+        - python-devel
+        - python-pyasn1
+        - python-crypto
+        - python-httplib2
+        - python-cryptography
+        - libcurl-devel
+      no_log: yes
+
+    - name: 'pip install -r requirements.txt'
+      pip:
+        requirements: /home/vagrant/requirements.txt
+      no_log: yes

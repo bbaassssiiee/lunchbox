@@ -1,8 +1,0 @@
-#!/usr/bin/env ansible-playbook
-# master playbook for developers
-- name: 'vagrant.yml'
-  hosts: all:!local
-  remote_user: "{{ ansible_user }}"
-
-- include: dbservers.yml
-- include: webservers.yml

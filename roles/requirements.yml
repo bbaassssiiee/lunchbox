@@ -1,9 +1,9 @@
 ---
 ## This lists roles that the playbooks depend on
 
+- src: dockpack.base_postgres
+- src: dockpack.base_goss
+- src: dockpack.base_docker
+- src: dockpack.base_java8
+- src: jdauphant.nginx
 - src: hostclick.tomcat
-
-- src: bbaassssiiee.el_postgres_role
-
-- src: https://github.com/bbaassssiiee/RHEL6-STIG.git
-  version: devel

@@ -1,8 +1,31 @@
 #!/usr/bin/env ansible-playbook
 # master playbook
-- name: 'site.yml'
-  hosts: all:!local
-  remote_user: "{{ ansible_user }}"
 
-- include: dbservers.yml
-- include: webservers.yml
+- name: 'docker'
+  hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: False
+  roles:
+    - { role: dockpack.base_docker, tags: 'docker' }
+
+# play for dbserver tier
+- name: 'dbservers.yml'
+  hosts: dbservers
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - { role: dockpack.base_postgres, tags: 'postgres' }
+
+# play for webserver tier
+
+- name: 'webservers.yml'
+  hosts: webservers
+  become: yes
+
+  roles:
+    - { role: jdauphant.nginx, tags: 'reverse_proxy' }
+    - { role: dockpack.base_java8, tags: 'java8' }
+    - { role: hostclick.tomcat, tags: 'hostclick.tomcat' }
+
