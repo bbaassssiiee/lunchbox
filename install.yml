@@ -1,18 +1,23 @@
 #!/usr/bin/env ansible-playbook
 
 - name: 'install.yml'          # quote names for syntax highlighting
-  hosts: all                   # scope the play appropriately
- # connection: local            #
+  hosts: control               # scope the play appropriately
+ # connection: local           #
   become: yes                  # get root
-  gather_facts: False          # booleans: /^(y|yes|n|no|true|false|on|off)$/i
+  gather_facts: True          # booleans: /^(y|yes|n|no|true|false|on|off)$/i
 
   tags:                        # use tags for plays, and actions
     - preparation
 
   vars:                        # use group_vars for environment specifics
     - url: "https://galaxy.ansible.com"  # quote when value has ':'
+    - npa: "{{ ansible_user|default('vagrant') }}"
 
-  tasks:                       # list tasks, but consider using a role
+
+  roles:
+    - dockpack.base_goss
+
+  pre_tasks:                       # list tasks, but consider using a role
     - name: 'check network'    # format parameters for small terminal size
       uri:                     # the best way is to use 'Native YML' format
         url: "{{ url }}"
@@ -22,70 +27,106 @@
         timeout: 60
         follow_redirects: all
 
-    - name: secure key directory
-      file:
-        path: /home/vagrant/.ssh
-        state: directory
-        owner: vagrant
-        group: vagrant
-        mode: 0700
+    - name: 'install epel-release for RedHat/Centos'
+      yum:
+        name: epel-release
+        state: present
 
-    - name: touch known_hosts
-      file:
-        path: /home/vagrant/.ssh/known_hosts
-        state: touch
-        owner: vagrant
-        group: vagrant
-        mode: 0700
-
-    - name: 'clear known_hosts'
-      become_user: vagrant
-      shell: "ssh-keygen -R {{ item }}"
-      with_items:
-        - sql
-        - web
-
-    - name: 'ssh-keyscan'
-      become_user: vagrant
-      shell: "ssh-keyscan {{ item }} >> ~/.ssh/known_hosts"
-      with_items:
-        - sql
-        - web
-
-    - name: copy key
-      command: cp /vagrant/files/private/vagrant.rsa /home/vagrant/.ssh/id_rsa
-
-    - name: chmod
-      file:
-        path: "{{ item }}"
-        owner: vagrant
-        group: vagrant
-        mode: 0600
-      with_items:
-        - /home/vagrant/.ssh/id_rsa
-        - /home/vagrant/.ssh/known_hosts
-
-    - name: 'set .bash_profile'
-      become_user: vagrant
-      command: "cp /vagrant/files/bash_profile /home/vagrant/.bash_profile"
-
-    - name: 'install RedHat python extensions for Ansible'
+    - name: 'install RedHat packages for Ansible'
       yum:
         name: "{{ item }}"
         state: present
       with_items:
+        - epel-release
+        - openssh-clients
         - python-setuptools
         - python-virtualenv
-        - python-pip
+        - python2-pip
         - python-devel
         - python-pyasn1
         - python-crypto
         - python-httplib2
         - python-cryptography
         - libcurl-devel
+      no_log: no
+
+    - name: secure key directory
+      become: yes
+      become_user: "{{ npa }}"
+      file:
+        path: ~/.ssh
+        state: directory
+        owner: "{{ npa }}"
+        group: "{{ npa }}"
+        mode: 0700
+
+#    - name: touch known_hosts
+#      become: yes
+#      become_user: "{{ npa }}"
+#      file:
+#        path: ~/.ssh/known_hosts
+#        state: touch
+#        owner: "{{ npa }}"
+#        group: "{{ npa }}"
+#        mode: 0700
+
+#    - name: touch known_hosts
+#      become: yes
+#      become_user: "{{ npa }}"
+#      file:
+#        path: ~/.ssh/known_hosts
+#        state: file
+#        owner: "{{ npa }}"
+#        group: "{{ npa }}"
+#        mode: 0700
+
+#    - name: 'clear known_hosts'
+#      become: yes
+#      become_user: "{{ npa }}"
+#      shell: "ssh-keygen -R {{ item }}"
+#      with_items:
+#        - sql
+#        - web
+#
+#    - name: 'ssh-keyscan'
+#      become: yes
+#      become_user: "{{ npa }}"
+#      shell: "ssh-keyscan {{ item }} >> ~/.ssh/known_hosts"
+#      with_items:
+#        - sql
+#        - web
+
+    - name: copy key
+      become: yes
+      become_user: "{{ npa }}"
+      copy:
+        src: private/vagrant.rsa
+        dest: ~/.ssh/id_rsa
+        owner: "{{ npa }}"
+        group: "{{ npa }}"
+        mode: 0400
       no_log: yes
+
+    - name: 'set .bash_profile'
+      become: yes
+      become_user: "{{ npa }}"
+      copy:
+        src: bash_profile
+        dest: ~/.bash_profile
+        owner: "{{ npa }}"
+        group: "{{ npa }}"
+
+    - name: 'copy requirements.txt'
+      copy:
+        src: requirements.txt
+        dest: ~/requirements.txt
+        owner: "{{ npa }}"
+        group: "{{ npa }}"
+        mode: 0400
+      no_log: yes
+
 
     - name: 'pip install -r requirements.txt'
       pip:
-        requirements: /vagrant/requirements.txt
+        requirements: ~/requirements.txt
       no_log: no

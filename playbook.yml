@@ -1,0 +1,4 @@
+---
+
+- name: install
+  include: install.yml

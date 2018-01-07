@@ -1,0 +1,3 @@
+# here we assign variables to all groups
+ansible_user: root
+

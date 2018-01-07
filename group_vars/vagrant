@@ -1,8 +1,9 @@
 ansible_user: vagrant
 
-make_audit_report: true
+dns_nameserver: 8.8.4.4
 
-# Enable or disable remediation for each category
-rhel6stig_cat1: false
-rhel6stig_cat2: false
-rhel6stig_cat3: false
+el_postgres_mip: 192.168.20.22
+el_postgres_net: 192.168.20.0/24
+
+log_host: sql
+log_host_ip: 192.168.20.22

@@ -1,0 +1,30 @@
+---
+molecule:
+  ignore_paths:
+    - .molecule
+    - lib
+    - bin
+    - library
+    - workshop
+    - galaxy_roles
+dependency:
+  name: galaxy
+  requirements_file: roles/requirements.yml
+driver:
+  name: docker
+provisioner:
+  ansible:
+    vault_password_file: ~/.vault
+    inventory_file: inventory/hosts
+docker:
+  containers:
+    - name: control
+      privileged: True
+      image: centos
+      image_version: centos7
+      privileged: True
+      ansible_groups:
+        - ansible
+        - docker
+verifier:
+  name: goss
