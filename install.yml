@@ -21,10 +21,29 @@
         status_code: 200
         timeout: 60
         follow_redirects: all
-    - name: 'known_host'
+
+    - name: secure key directory
+      file:
+        path: /home/vagrant/.ssh
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+
+    - name: touch known_hosts
       file:
         path: /home/vagrant/.ssh/known_hosts
-        state: absent
+        state: touch
+        owner: vagrant
+        group: vagrant
+        mode: 0700
+
+    - name: 'clear known_hosts'
+      become_user: vagrant
+      shell: "ssh-keygen -R {{ item }}"
+      with_items:
+        - sql
+        - web
 
     - name: 'ssh-keyscan'
       become_user: vagrant
@@ -33,25 +52,24 @@
         - sql
         - web
 
-    - name: key dir
-      file:
-        path: /etc/ssh/vagrant
-        state: directory
-        owner: vagrant
-        group: vagrant
-        mode: 0700
-
     - name: copy key
-      command: cp /home/vagrant/files/private/vagrant.rsa /etc/ssh/vagrant/id_rsa
+      command: cp /vagrant/files/private/vagrant.rsa /home/vagrant/.ssh/id_rsa
 
     - name: chmod
       file:
-        path: /etc/ssh/vagrant/id_rsa
+        path: "{{ item }}"
         owner: vagrant
         group: vagrant
-        mode: 0400
+        mode: 0600
+      with_items:
+        - /home/vagrant/.ssh/id_rsa
+        - /home/vagrant/.ssh/known_hosts
 
-    - name: 'install packages for Ansible'
+    - name: 'set .bash_profile'
+      become_user: vagrant
+      command: "cp /vagrant/files/bash_profile /home/vagrant/.bash_profile"
+
+    - name: 'install RedHat python extensions for Ansible'
       yum:
         name: "{{ item }}"
         state: present
@@ -69,5 +87,5 @@
 
     - name: 'pip install -r requirements.txt'
       pip:
-        requirements: /home/vagrant/requirements.txt
-      no_log: yes
+        requirements: /vagrant/requirements.txt
+      no_log: no
