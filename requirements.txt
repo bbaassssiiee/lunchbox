@@ -1,7 +1,8 @@
 ansible>=2.5.15
-Jinja2==2.9.6
+Jinja2>=2.10.1
 paramiko==2.1.2
-PyYAML==3.12
+pyyaml>=4.2b1
+paramiko>=2.1.6
 cryptography
 yamllint==1.8.1
 ansible-lint==3.4.15
